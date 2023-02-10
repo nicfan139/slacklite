@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"lib": ["ES2020"],
+		"module": "NodeNext",
+		"rootDir": "./src",
+		"moduleResolution": "node",
+		"outDir": "./dist",
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"skipLibCheck": true,
+		/**
+      The following flags are needed for the 'sequelize-typescript' library
+    */
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	},
+	"include": ["src/**/*"]
+}
