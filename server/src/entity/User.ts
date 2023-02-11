@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Channel } from './Channel';
 
 @Entity()
 export class User {
@@ -31,4 +32,7 @@ export class User {
 		default: () => 'CURRENT_TIMESTAMP'
 	})
 	updatedAt!: Date;
+
+	@ManyToMany(() => Channel, (channel) => channel.members)
+	channels!: Channel[];
 }

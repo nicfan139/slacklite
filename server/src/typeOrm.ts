@@ -1,17 +1,21 @@
 import 'reflect-metadata';
+import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
+import { Channel } from './entity/Channel';
 import { User } from './entity/User';
+
+dotenv.config();
 
 export const AppDataSource = new DataSource({
 	type: 'postgres',
-	host: 'localhost',
-	port: 5432,
-	username: 'postgres',
-	password: 'postgres',
-	database: 'slacklite_dev',
-	synchronize: true,
+	host: process.env.PG_HOST,
+	port: Number(process.env.PG_PORT),
+	username: process.env.PG_USERNAME,
+	password: process.env.PG_PASSWORD,
+	database: process.env.PG_DATABASE,
+	synchronize: false,
 	logging: false,
-	entities: [User],
-	migrations: [],
+	entities: [Channel, User],
+	migrations: ['migrations/*.ts'],
 	subscribers: []
 });

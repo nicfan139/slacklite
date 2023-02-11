@@ -1,4 +1,5 @@
+import { ChannelResolvers } from './channel';
 import { UserResolvers } from './user';
 
-// TODO: Add resolvers for Channel and Messsage
-export const resolvers = [UserResolvers];
+// TODO: Add resolvers for Messsage
+export const resolvers = [ChannelResolvers, UserResolvers];

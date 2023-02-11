@@ -19,8 +19,34 @@ interface IUserPayload {
 export const UserResolvers = {
 	Query: {
 		users: async () => {
-			const users = await UserRepository.find();
+			const users = await UserRepository.find({
+				relations: {
+					channels: true
+				}
+			});
 			return users;
+		},
+
+		user: async (
+			_root: unknown,
+			args: {
+				userId: string;
+			}
+		) => {
+			const user = await UserRepository.findOne({
+				where: {
+					id: args.userId
+				},
+				relations: {
+					channels: true
+				}
+			});
+
+			if (user) {
+				return user;
+			} else {
+				throw new GraphQLError(`User #${args.userId} does not exist`);
+			}
 		}
 	},
 
@@ -49,12 +75,12 @@ export const UserResolvers = {
 		updateUser: async (
 			_root: unknown,
 			args: {
-				userId: string,
-				input: IUserPayload,
-			},
+				userId: string;
+				input: IUserPayload;
+			}
 		) => {
 			const user = await UserRepository.findOneBy({
-				id: args.userId,
+				id: args.userId
 			});
 
 			if (user) {
@@ -62,7 +88,7 @@ export const UserResolvers = {
 				const updatedUser = await UserRepository.save(user);
 				return updatedUser;
 			} else {
-				throw new GraphQLError(`User #${args.userId} does not exist`)
+				throw new GraphQLError(`User #${args.userId} does not exist`);
 			}
 		},
 
@@ -75,7 +101,5 @@ export const UserResolvers = {
 			await UserRepository.delete(args.userId);
 			return `Successfully deleted user #${args.userId}`;
 		}
-	},
-
-	User: {}
+	}
 };

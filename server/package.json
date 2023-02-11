@@ -15,7 +15,8 @@
 		"format": "prettier --write .",
 		"polish": "npm run type-check && npm run format",
 		"build": "tsc --build",
-		"clean": "tsc --build --clean"
+		"clean": "tsc --build --clean",
+		"start": "node ./dist/server.js"
 	},
 	"dependencies": {
 		"@apollo/server": "^4.3.3",
@@ -26,6 +27,7 @@
 		"express": "^4.18.2",
 		"express-jwt": "^8.4.1",
 		"graphql": "^16.6.0",
+		"graphql-subscriptions": "^2.0.0",
 		"graphql-tag": "^2.12.6",
 		"graphql-ws": "^5.11.3",
 		"jsonwebtoken": "^9.0.0",
@@ -43,7 +45,11 @@
 		"@types/node": "^18.13.0",
 		"@types/ws": "^8.5.4",
 		"nodemon": "^2.0.20",
+		"prettier": "^2.8.4",
 		"ts-node": "^10.9.1",
 		"typescript": "^4.9.5"
+	},
+	"engines": {
+		"node": "16.13.2"
 	}
 }

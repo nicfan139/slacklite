@@ -3,6 +3,7 @@ import { gql } from 'graphql-tag';
 export const UserTypeDefs = gql`
 	type Query {
 		users: [User!]
+		user(userId: ID!): User!
 	}
 
 	type Mutation {
@@ -18,6 +19,7 @@ export const UserTypeDefs = gql`
 		email: String!
 		password: String!
 		isAdmin: Boolean!
+		channels: [Channel]
 	}
 
 	input AddUserInput {
