@@ -6,16 +6,21 @@
 	},
 	"scripts": {
 		"dev": "nodemon ./src/server.ts",
+		"db:sync": "npx typeorm-ts-node-commonjs schema:sync -d ./src/typeOrm.ts",
+		"db:pending": "npx typeorm-ts-node-commonjs migration:show -d ./src/typeOrm.ts",
+		"db:migrate": "npx typeorm-ts-node-commonjs migration:run -d ./src/typeOrm.ts",
+		"db:drop": "npx typeorm-ts-node-commonjs schema:drop -d ./src/typeOrm.ts",
+		"db:revert": "npx typeorm-ts-node-commonjs migration:revert -d ./src/typeOrm.ts",
 		"type-check": "tsc --noEmit",
 		"format": "prettier --write .",
-    "polish": "npm run type-check && npm run format",
-    "build": "tsc --build",
-    "clean": "tsc --build --clean"
+		"polish": "npm run type-check && npm run format",
+		"build": "tsc --build",
+		"clean": "tsc --build --clean"
 	},
 	"dependencies": {
 		"@apollo/server": "^4.3.3",
 		"@graphql-tools/schema": "^9.0.16",
-		"brcypt": "^1.0.1",
+		"bcrypt": "^5.1.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
@@ -25,6 +30,9 @@
 		"graphql-ws": "^5.11.3",
 		"jsonwebtoken": "^9.0.0",
 		"morgan": "^1.10.0",
+		"pg": "^8.9.0",
+		"reflect-metadata": "^0.1.13",
+		"typeorm": "^0.3.12",
 		"ws": "^8.12.0"
 	},
 	"devDependencies": {
