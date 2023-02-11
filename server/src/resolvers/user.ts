@@ -8,7 +8,7 @@ dotenv.config();
 
 const UserRepository = AppDataSource.getRepository(User);
 
-interface IUserCreatePayload {
+interface IUserPayload {
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -28,7 +28,7 @@ export const UserResolvers = {
 		addUser: async (
 			_root: unknown,
 			args: {
-				input: IUserCreatePayload;
+				input: IUserPayload;
 			}
 		) => {
 			const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
@@ -43,6 +43,26 @@ export const UserResolvers = {
 				return result;
 			} else {
 				throw new GraphQLError('Unable to encrypt password');
+			}
+		},
+
+		updateUser: async (
+			_root: unknown,
+			args: {
+				userId: string,
+				input: IUserPayload,
+			},
+		) => {
+			const user = await UserRepository.findOneBy({
+				id: args.userId,
+			});
+
+			if (user) {
+				UserRepository.merge(user, args.input);
+				const updatedUser = await UserRepository.save(user);
+				return updatedUser;
+			} else {
+				throw new GraphQLError(`User #${args.userId} does not exist`)
 			}
 		},
 

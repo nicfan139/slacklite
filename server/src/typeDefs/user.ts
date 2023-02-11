@@ -6,7 +6,8 @@ export const UserTypeDefs = gql`
 	}
 
 	type Mutation {
-		addUser(input: UserInput!): User!
+		addUser(input: AddUserInput!): User!
+		updateUser(userId: ID!, input: UpdateUserInput!): User!
 		deleteUser(userId: ID!): String!
 	}
 
@@ -19,11 +20,18 @@ export const UserTypeDefs = gql`
 		isAdmin: Boolean!
 	}
 
-	input UserInput {
+	input AddUserInput {
 		firstName: String!
 		lastName: String!
 		email: String!
 		password: String!
+		isAdmin: Boolean!
+	}
+
+	input UpdateUserInput {
+		firstName: String!
+		lastName: String!
+		email: String!
 		isAdmin: Boolean!
 	}
 `;

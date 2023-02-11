@@ -15,7 +15,7 @@
 		"noUnusedParameters": true,
 		"skipLibCheck": true,
 		/**
-      The following flags are needed for the 'sequelize-typescript' library
+      The following flags are needed for the 'typeorm' library
     */
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true
