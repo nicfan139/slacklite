@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany } from 'typeorm';
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	ManyToMany,
+	OneToMany
+} from 'typeorm';
 import { Channel } from './Channel';
 import { Message } from './Message';
 
@@ -30,12 +38,15 @@ export class User {
 
 	@UpdateDateColumn({
 		type: 'timestamptz',
-		default: () => 'now()',
+		default: () => 'now()'
 	})
 	updatedAt!: Date;
 
 	@ManyToMany(() => Channel, (channel) => channel.members)
 	channels!: Channel[];
+
+	@OneToMany(() => Channel, (channel) => channel.owner)
+	channelsOwned!: Channel[];
 
 	@OneToMany(() => Message, (message) => message.from)
 	messages!: Message[];

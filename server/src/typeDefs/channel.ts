@@ -20,6 +20,7 @@ export const ChannelTypeDefs = gql`
 		id: ID!
 		name: String!
 		description: String
+		owner: User
 		members: [User!]
 		messages: [Message!]
 		createdAt: Float!
@@ -29,6 +30,7 @@ export const ChannelTypeDefs = gql`
 	input ChannelInput {
 		name: String!
 		description: String
-		members: [String!]!
+		ownerId: ID!
+		members: [ID!]!
 	}
 `;

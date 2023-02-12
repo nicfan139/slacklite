@@ -15,9 +15,9 @@ export const AppDataSource = new DataSource({
 	password: process.env.PG_PASSWORD,
 	database: process.env.PG_DATABASE,
 	synchronize: false,
-	migrationsRun: true,
+	migrationsRun: false,
 	logging: false,
 	entities: [Channel, Message, User],
-	migrations: ['src/migrations/*.ts'],
+	migrations: ['src/migrations/*.ts', 'src/migrations/*.js'],
 	subscribers: []
 });

@@ -20,6 +20,7 @@ export const UserTypeDefs = gql`
 		password: String!
 		isAdmin: Boolean!
 		channels: [Channel]
+		channelsOwned: [Channel]
 		createdAt: Float!
 		updatedAt: Float!
 	}

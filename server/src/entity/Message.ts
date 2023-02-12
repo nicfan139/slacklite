@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	ManyToOne
+} from 'typeorm';
 import { Channel } from './Channel';
 import { User } from './User';
 
@@ -18,7 +25,7 @@ export class Message {
 
 	@UpdateDateColumn({
 		type: 'timestamptz',
-		default: () => 'now()',
+		default: () => 'now()'
 	})
 	updatedAt!: Date;
 

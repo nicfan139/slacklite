@@ -12,6 +12,7 @@ const UserRepository = AppDataSource.getRepository(User);
 interface IChannelPayload {
 	name: string;
 	description?: string;
+	ownerId: string;
 	members: string[];
 }
 
@@ -19,11 +20,11 @@ export const ChannelResolvers = {
 	Query: {
 		channels: async () => {
 			const channels = await ChannelRepository.find({
-				relations: ['members', 'messages', 'messages.from'],
+				relations: ['owner', 'members', 'messages', 'messages.from'],
 				order: {
-					createdAt: "DESC",
+					createdAt: 'DESC',
 					messages: {
-						createdAt: "DESC"
+						createdAt: 'DESC'
 					}
 				}
 			});
@@ -40,11 +41,15 @@ export const ChannelResolvers = {
 				where: {
 					id: args.channelId
 				},
-				relations: {
-					members: true,
-					messages: true
+				relations: ['owner', 'members', 'messages', 'messages.from'],
+				order: {
+					messages: {
+						createdAt: 'DESC'
+					}
 				}
 			});
+
+			console.log(channel);
 
 			if (channel) {
 				return channel;
@@ -61,6 +66,10 @@ export const ChannelResolvers = {
 				input: IChannelPayload;
 			}
 		) => {
+			const owner = await UserRepository.findOneBy({
+				id: args.input.ownerId
+			});
+
 			const members: User[] = await Promise.all(
 				args.input.members.map(async (userId: string) => {
 					const user = await UserRepository.findOneBy({ id: userId });
@@ -70,6 +79,7 @@ export const ChannelResolvers = {
 
 			const payload = {
 				...args.input,
+				owner: owner as User,
 				members
 			};
 

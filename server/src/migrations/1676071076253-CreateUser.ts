@@ -44,14 +44,14 @@ export class CreateUser1676071076253 implements MigrationInterface {
 						name: 'createdAt',
 						type: 'timestamptz',
 						isNullable: false,
-						default: "now()"
+						default: 'now()'
 					},
 					{
 						name: 'updatedAt',
 						type: 'timestamptz',
 						isNullable: false,
-						default: "now()",
-						onUpdate: "now()"
+						default: 'now()',
+						onUpdate: 'now()'
 					}
 				]
 			})

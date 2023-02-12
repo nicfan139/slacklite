@@ -47,7 +47,9 @@ export const MessageResolvers = {
 			});
 
 			if (channel && sender) {
-				const IS_CHANNEL_MEMBER = channel.members.find(member => member.id === args.input.senderId);
+				const IS_CHANNEL_MEMBER = channel.members.find(
+					(member) => member.id === args.input.senderId
+				);
 
 				if (IS_CHANNEL_MEMBER) {
 					const payload = {
@@ -57,14 +59,16 @@ export const MessageResolvers = {
 					};
 					const newMessage = await MessageRepository.create(payload);
 					const result = await MessageRepository.save(newMessage);
-	
+
 					pubSub.publish('MESSAGE_ADDED', {
 						messageAdded: result
 					});
-	
+
 					return result;
 				} else {
-					throw new GraphQLError(`User #${args.input.senderId} is not a member of channel #${args.input.channelId}`);
+					throw new GraphQLError(
+						`User #${args.input.senderId} is not a member of channel #${args.input.channelId}`
+					);
 				}
 			} else {
 				throw new GraphQLError(`Error occured while trying to create new message`);

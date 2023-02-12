@@ -28,14 +28,14 @@ export class CreateChannel1676149396417 implements MigrationInterface {
 						name: 'createdAt',
 						type: 'timestamptz',
 						isNullable: false,
-						default: "now()"
+						default: 'now()'
 					},
 					{
 						name: 'updatedAt',
 						type: 'timestamptz',
 						isNullable: false,
-						default: "now()",
-						onUpdate: "now()"
+						default: 'now()',
+						onUpdate: 'now()'
 					}
 				]
 			})

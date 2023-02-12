@@ -22,10 +22,7 @@ export const UserResolvers = {
 			const users = await UserRepository.find({
 				order: {
 					createdAt: 'DESC'
-				},
-				relations: {
-					channels: true,
-				},
+				}
 			});
 			return users;
 		},
@@ -41,7 +38,8 @@ export const UserResolvers = {
 					id: args.userId
 				},
 				relations: {
-					channels: true
+					channels: true,
+					channelsOwned: true
 				}
 			});
 

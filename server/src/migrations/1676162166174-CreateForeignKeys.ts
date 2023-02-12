@@ -9,12 +9,12 @@ export class CreateForeignKeys1676162166174 implements MigrationInterface {
 					{
 						name: 'channelId',
 						type: 'uuid',
-						isPrimary: true,
+						isPrimary: true
 					},
 					{
 						name: 'userId',
 						type: 'uuid',
-						isPrimary: true,
+						isPrimary: true
 					}
 				]
 			})
@@ -25,7 +25,7 @@ export class CreateForeignKeys1676162166174 implements MigrationInterface {
 			new TableForeignKey({
 				columnNames: ['channelId'],
 				referencedTableName: 'channel',
-				referencedColumnNames: ['id'],
+				referencedColumnNames: ['id']
 			})
 		);
 
@@ -41,12 +41,12 @@ export class CreateForeignKeys1676162166174 implements MigrationInterface {
 		await queryRunner.addColumns('message', [
 			new TableColumn({
 				name: 'channelId',
-				type: 'uuid',
+				type: 'uuid'
 			}),
 			new TableColumn({
 				name: 'fromId',
-				type: 'uuid',
-			}),
+				type: 'uuid'
+			})
 		]);
 
 		await queryRunner.createForeignKey(
