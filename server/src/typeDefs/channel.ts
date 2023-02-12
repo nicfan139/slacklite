@@ -13,7 +13,7 @@ export const ChannelTypeDefs = gql`
 	}
 
 	type Subscription {
-		channelAdded: Channel
+		channelAdded: Channel!
 	}
 
 	type Channel {
@@ -21,6 +21,7 @@ export const ChannelTypeDefs = gql`
 		name: String!
 		description: String
 		members: [User!]
+		messages: [Message!]
 	}
 
 	input ChannelInput {

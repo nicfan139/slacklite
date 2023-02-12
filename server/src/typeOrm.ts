@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { Channel } from './entity/Channel';
+import { Message } from './entity/Message';
 import { User } from './entity/User';
 
 dotenv.config();
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
 	database: process.env.PG_DATABASE,
 	synchronize: false,
 	logging: false,
-	entities: [Channel, User],
-	migrations: ['migrations/*.ts'],
+	entities: [Channel, Message, User],
+	migrations: ['src/migrations/*.ts'],
 	subscribers: []
 });

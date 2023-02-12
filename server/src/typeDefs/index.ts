@@ -1,5 +1,5 @@
 import { ChannelTypeDefs } from './channel';
+import { MessageTypeDefs } from './message';
 import { UserTypeDefs } from './user';
 
-// TODO: Add typeDefs for Messsage
-export const typeDefs = [ChannelTypeDefs, UserTypeDefs];
+export const typeDefs = [ChannelTypeDefs, MessageTypeDefs, UserTypeDefs];

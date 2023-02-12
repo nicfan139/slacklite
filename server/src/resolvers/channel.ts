@@ -1,12 +1,12 @@
 import { GraphQLError } from 'graphql';
-import { PubSub } from 'graphql-subscriptions';
 import { AppDataSource } from '../typeOrm';
 import { Channel } from '../entity/Channel';
+import { Message } from '../entity/Message';
 import { User } from '../entity/User';
-
-const pubSub = new PubSub();
+import { pubSub } from './helpers';
 
 const ChannelRepository = AppDataSource.getRepository(Channel);
+const MessageRepository = AppDataSource.getRepository(Message);
 const UserRepository = AppDataSource.getRepository(User);
 
 interface IChannelPayload {
@@ -19,9 +19,7 @@ export const ChannelResolvers = {
 	Query: {
 		channels: async () => {
 			const channels = await ChannelRepository.find({
-				relations: {
-					members: true
-				}
+				relations: ['members', 'messages', 'messages.from']
 			});
 			return channels;
 		},
@@ -37,7 +35,8 @@ export const ChannelResolvers = {
 					id: args.channelId
 				},
 				relations: {
-					members: true
+					members: true,
+					messages: true
 				}
 			});
 
@@ -72,7 +71,7 @@ export const ChannelResolvers = {
 			const result = await ChannelRepository.save(channel);
 
 			pubSub.publish('CHANNEL_ADDED', {
-				channelAdded: channel
+				channelAdded: result
 			});
 
 			return result;
@@ -101,6 +100,11 @@ export const ChannelResolvers = {
 				};
 				const updatedChannel = ChannelRepository.merge(channel, payload);
 				const result = await ChannelRepository.save(updatedChannel);
+
+				pubSub.publish('CHANNEL_UPDATED', {
+					channelUpdated: result
+				});
+
 				return result;
 			} else {
 				throw new GraphQLError(`Channel #${args.channelId} does not exist`);
@@ -118,39 +122,34 @@ export const ChannelResolvers = {
 				where: {
 					id: CHANNEL_ID_TO_DELETE
 				},
-				relations: {
-					members: true
-				}
+				relations: ['messages', 'members', 'members.channels']
 			});
 
 			if (channel) {
+				// Delete all channel messages
+				await Promise.all(
+					channel.messages.map(async (message) => {
+						await MessageRepository.delete(message.id);
+					})
+				);
+
 				// Dissociate channel from each affected channel member (user)
 				await Promise.all(
 					channel.members.map(async (member) => {
-						const user = await UserRepository.findOne({
-							where: {
-								id: member.id
-							},
-							relations: {
-								channels: true
-							}
-						});
-						console.log(user);
-						if (user) {
-							user.channels = user.channels.filter(
-								(channel) => channel.id !== CHANNEL_ID_TO_DELETE
-							);
-							UserRepository.save(user);
-						} else {
-							throw new GraphQLError(
-								`Unable to dissociate members from channel #${CHANNEL_ID_TO_DELETE}`
-							);
-						}
+						member.channels = member.channels.filter(
+							(channel) => channel.id !== CHANNEL_ID_TO_DELETE
+						);
+						await UserRepository.save(member);
 					})
 				);
 
 				// Delete the channel after dissociating the users
 				await ChannelRepository.delete(CHANNEL_ID_TO_DELETE);
+
+				pubSub.publish('CHANNEL_DELETED', {
+					channelDeletedId: CHANNEL_ID_TO_DELETE
+				});
+
 				return `Successfully deleted channel #${CHANNEL_ID_TO_DELETE}`;
 			} else {
 				throw new GraphQLError(`Channel #${CHANNEL_ID_TO_DELETE} does not exist`);

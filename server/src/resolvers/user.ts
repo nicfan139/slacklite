@@ -21,7 +21,8 @@ export const UserResolvers = {
 		users: async () => {
 			const users = await UserRepository.find({
 				relations: {
-					channels: true
+					channels: true,
+					messages: true
 				}
 			});
 			return users;
