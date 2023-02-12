@@ -33,8 +33,13 @@ export const MessageResolvers = {
 				};
 			}
 		) => {
-			const channel = await ChannelRepository.findOneBy({
-				id: args.input.channelId
+			const channel = await ChannelRepository.findOne({
+				where: {
+					id: args.input.channelId
+				},
+				relations: {
+					members: true
+				}
 			});
 
 			const sender = await UserRepository.findOneBy({
@@ -42,19 +47,25 @@ export const MessageResolvers = {
 			});
 
 			if (channel && sender) {
-				const payload = {
-					text: args.input.text,
-					channel,
-					from: sender
-				};
-				const newMessage = await MessageRepository.create(payload);
-				const result = await MessageRepository.save(newMessage);
+				const IS_CHANNEL_MEMBER = channel.members.find(member => member.id === args.input.senderId);
 
-				pubSub.publish('MESSAGE_ADDED', {
-					messageAdded: result
-				});
-
-				return result;
+				if (IS_CHANNEL_MEMBER) {
+					const payload = {
+						text: args.input.text,
+						channel,
+						from: sender
+					};
+					const newMessage = await MessageRepository.create(payload);
+					const result = await MessageRepository.save(newMessage);
+	
+					pubSub.publish('MESSAGE_ADDED', {
+						messageAdded: result
+					});
+	
+					return result;
+				} else {
+					throw new GraphQLError(`User #${args.input.senderId} is not a member of channel #${args.input.channelId}`);
+				}
 			} else {
 				throw new GraphQLError(`Error occured while trying to create new message`);
 			}

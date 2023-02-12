@@ -22,6 +22,8 @@ export const ChannelTypeDefs = gql`
 		description: String
 		members: [User!]
 		messages: [Message!]
+		createdAt: Float!
+		updatedAt: Float!
 	}
 
 	input ChannelInput {

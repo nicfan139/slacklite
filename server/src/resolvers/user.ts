@@ -20,10 +20,12 @@ export const UserResolvers = {
 	Query: {
 		users: async () => {
 			const users = await UserRepository.find({
+				order: {
+					createdAt: 'DESC'
+				},
 				relations: {
 					channels: true,
-					messages: true
-				}
+				},
 			});
 			return users;
 		},

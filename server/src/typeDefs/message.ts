@@ -20,6 +20,8 @@ export const MessageTypeDefs = gql`
 		channel: Channel!
 		from: User!
 		text: String!
+		createdAt: Float!
+		updatedAt: Float!
 	}
 
 	input AddMessageInput {

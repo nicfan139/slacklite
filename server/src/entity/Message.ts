@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { Channel } from './Channel';
 import { User } from './User';
 
@@ -10,15 +10,15 @@ export class Message {
 	@Column()
 	text!: string;
 
-	@Column({
+	@CreateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()'
 	})
 	createdAt!: Date;
 
-	@Column({
+	@UpdateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()',
 	})
 	updatedAt!: Date;
 

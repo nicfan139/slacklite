@@ -20,6 +20,8 @@ export const UserTypeDefs = gql`
 		password: String!
 		isAdmin: Boolean!
 		channels: [Channel]
+		createdAt: Float!
+		updatedAt: Float!
 	}
 
 	input AddUserInput {

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany } from 'typeorm';
 import { Channel } from './Channel';
 import { Message } from './Message';
 
@@ -22,15 +22,15 @@ export class User {
 	@Column()
 	isAdmin!: boolean;
 
-	@Column({
+	@CreateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()'
 	})
 	createdAt!: Date;
 
-	@Column({
+	@UpdateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()',
 	})
 	updatedAt!: Date;
 

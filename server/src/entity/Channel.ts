@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Message } from './Message';
 import { User } from './User';
 
@@ -16,15 +16,15 @@ export class Channel {
 	})
 	description!: string;
 
-	@Column({
+	@CreateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()'
 	})
 	createdAt!: Date;
 
-	@Column({
+	@UpdateDateColumn({
 		type: 'timestamptz',
-		default: () => 'CURRENT_TIMESTAMP'
+		default: () => 'now()',
 	})
 	updatedAt!: Date;
 

@@ -19,7 +19,13 @@ export const ChannelResolvers = {
 	Query: {
 		channels: async () => {
 			const channels = await ChannelRepository.find({
-				relations: ['members', 'messages', 'messages.from']
+				relations: ['members', 'messages', 'messages.from'],
+				order: {
+					createdAt: "DESC",
+					messages: {
+						createdAt: "DESC"
+					}
+				}
 			});
 			return channels;
 		},

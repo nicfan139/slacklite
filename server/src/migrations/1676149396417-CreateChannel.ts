@@ -27,12 +27,15 @@ export class CreateChannel1676149396417 implements MigrationInterface {
 					{
 						name: 'createdAt',
 						type: 'timestamptz',
-						isNullable: false
+						isNullable: false,
+						default: "now()"
 					},
 					{
 						name: 'updatedAt',
 						type: 'timestamptz',
-						isNullable: false
+						isNullable: false,
+						default: "now()",
+						onUpdate: "now()"
 					}
 				]
 			})
