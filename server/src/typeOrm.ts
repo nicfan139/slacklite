@@ -18,6 +18,6 @@ export const AppDataSource = new DataSource({
 	migrationsRun: false,
 	logging: false,
 	entities: [Channel, Message, User],
-	migrations: ['src/migrations/*.ts', 'src/migrations/*.js'],
+	migrations: [process.env.TYPEORM_MIGRATION_DIR as string],
 	subscribers: []
 });
