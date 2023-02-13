@@ -5,6 +5,14 @@ Includes JWT authentication and websockets.
 
 ## Tech stack
 
+Client:
+- Next.js 13
+- React
+- TypeScript
+- Tailwind CSS + Headless UI
+- GraphQL
+- Apollo Client
+
 Server:
 
 - Node.js

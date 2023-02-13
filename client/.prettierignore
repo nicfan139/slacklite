@@ -1,0 +1,12 @@
+.prettierrc
+package.json
+package-lock.json
+tsconfig.json
+next.config.js
+next-env.d.ts
+eslintrc.json
+tailwind.config.js
+postcss.config.js
+/dist
+/.vscode
+/.next
