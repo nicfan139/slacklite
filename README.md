@@ -12,6 +12,8 @@ Server:
 - TypeScript
 - GraphQL
 - Apollo Server
+- TypeORM
+- PostgreSQL
 
 ## Authors
 
