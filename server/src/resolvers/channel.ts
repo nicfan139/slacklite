@@ -1,13 +1,6 @@
 import { GraphQLError } from 'graphql';
-import { AppDataSource } from '../typeOrm';
-import { Channel } from '../entity/Channel';
-import { Message } from '../entity/Message';
 import { User } from '../entity/User';
-import { pubSub } from './helpers';
-
-const ChannelRepository = AppDataSource.getRepository(Channel);
-const MessageRepository = AppDataSource.getRepository(Message);
-const UserRepository = AppDataSource.getRepository(User);
+import { ChannelRepository, MessageRepository, UserRepository } from './helpers';
 
 interface IChannelPayload {
 	name: string;
@@ -24,7 +17,7 @@ export const ChannelResolvers = {
 				order: {
 					createdAt: 'DESC',
 					messages: {
-						createdAt: 'DESC'
+						createdAt: 'ASC'
 					}
 				}
 			});
@@ -44,12 +37,10 @@ export const ChannelResolvers = {
 				relations: ['owner', 'members', 'messages', 'messages.from'],
 				order: {
 					messages: {
-						createdAt: 'DESC'
+						createdAt: 'ASC'
 					}
 				}
 			});
-
-			console.log(channel);
 
 			if (channel) {
 				return channel;
@@ -86,10 +77,6 @@ export const ChannelResolvers = {
 			const channel = await ChannelRepository.create(payload);
 			const result = await ChannelRepository.save(channel);
 
-			pubSub.publish('CHANNEL_ADDED', {
-				channelAdded: result
-			});
-
 			return result;
 		},
 
@@ -116,10 +103,6 @@ export const ChannelResolvers = {
 				};
 				const updatedChannel = ChannelRepository.merge(channel, payload);
 				const result = await ChannelRepository.save(updatedChannel);
-
-				pubSub.publish('CHANNEL_UPDATED', {
-					channelUpdated: result
-				});
 
 				return result;
 			} else {
@@ -161,10 +144,6 @@ export const ChannelResolvers = {
 
 				// Delete the channel after dissociating the users
 				await ChannelRepository.delete(CHANNEL_ID_TO_DELETE);
-
-				pubSub.publish('CHANNEL_DELETED', {
-					channelDeletedId: CHANNEL_ID_TO_DELETE
-				});
 
 				return `Successfully deleted channel #${CHANNEL_ID_TO_DELETE}`;
 			} else {

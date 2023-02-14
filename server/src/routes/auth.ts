@@ -2,13 +2,12 @@ import { Router, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { AppDataSource } from '../typeOrm';
+import { UserRepository } from '../resolvers/helpers';
 import { User } from '../entity/User';
 
 const router = Router();
 dotenv.config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
-const UserRepository = AppDataSource.getRepository(User);
 
 const parseUserResponse = (user: User) => ({
 	id: user.id,

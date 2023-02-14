@@ -1,12 +1,9 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
-import { AppDataSource } from '../typeOrm';
-import { User } from '../entity/User';
+import { UserRepository } from './helpers';
 
 dotenv.config();
-
-const UserRepository = AppDataSource.getRepository(User);
 
 interface IUserPayload {
 	firstName: string;

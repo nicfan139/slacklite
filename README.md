@@ -1,7 +1,6 @@
 # Slacklite
 
 A chat app inspired by Slack. Think of this as a "dumbed-down" small-scale version of the real thing.
-Includes JWT authentication and websockets.
 
 ## Tech stack
 

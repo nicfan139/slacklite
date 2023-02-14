@@ -1,13 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { AppDataSource } from '../typeOrm';
-import { Channel } from '../entity/Channel';
-import { Message } from '../entity/Message';
-import { User } from '../entity/User';
-import { pubSub } from './helpers';
-
-const MessageRepository = AppDataSource.getRepository(Message);
-const ChannelRepository = AppDataSource.getRepository(Channel);
-const UserRepository = AppDataSource.getRepository(User);
+import { ChannelRepository, MessageRepository, UserRepository } from './helpers';
 
 export const MessageResolvers = {
 	Query: {
@@ -60,10 +52,6 @@ export const MessageResolvers = {
 					const newMessage = await MessageRepository.create(payload);
 					const result = await MessageRepository.save(newMessage);
 
-					pubSub.publish('MESSAGE_ADDED', {
-						messageAdded: result
-					});
-
 					return result;
 				} else {
 					throw new GraphQLError(
@@ -100,10 +88,6 @@ export const MessageResolvers = {
 				const updatedMessage = MessageRepository.merge(message, payload);
 				const result = MessageRepository.save(updatedMessage);
 
-				pubSub.publish('MESSAGE_UPDATED', {
-					messageUpdated: result
-				});
-
 				return result;
 			} else {
 				throw new GraphQLError(`Message #${args.messageId} does not exist`);
@@ -117,10 +101,6 @@ export const MessageResolvers = {
 			}
 		) => {
 			await MessageRepository.delete(args.messageId);
-
-			pubSub.publish('MESSAGE_DELETED', {
-				messageDeletedId: args.messageId
-			});
 
 			return `Successfully deleted message #${args.messageId}`;
 		}

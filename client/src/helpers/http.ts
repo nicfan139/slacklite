@@ -17,15 +17,3 @@ export const normalFetch = ({ route, method, payload }: IFetchProps) =>
 			body: JSON.stringify(payload)
 		})
 	});
-
-export const authorizedFetch = ({ route, method, payload }: IFetchProps) =>
-	fetch(BACKEND_API_URL + '/api' + route, {
-		method,
-		headers: {
-			'Content-type': 'application/json',
-			Authorization: `Bearer ${USER_ACCESS_TOKEN}`
-		},
-		...(payload && {
-			body: JSON.stringify(payload)
-		})
-	});
