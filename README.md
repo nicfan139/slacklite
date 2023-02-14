@@ -11,6 +11,9 @@ Client:
 - Tailwind CSS + Headless UI
 - GraphQL
 - Apollo Client
+- React Query
+- Heroicons
+- Markdown
 
 Server:
 

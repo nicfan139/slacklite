@@ -1,6 +1,12 @@
 export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 export const USER_ACCESS_TOKEN = localStorage.getItem('slacklite-userAccessToken');
 
+export const getAuthContext = () => ({
+	headers: {
+		Authorization: `Bearer ${USER_ACCESS_TOKEN}`
+	}
+});
+
 interface IFetchProps {
 	route: string;
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE';

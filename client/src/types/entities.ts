@@ -26,4 +26,4 @@ export type TMessage = TEntity & {
 	text: string;
 	from: TUser;
 	channel: TChannel;
-}
+};

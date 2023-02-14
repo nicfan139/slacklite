@@ -3,7 +3,17 @@ import { ChannelRepository, MessageRepository, UserRepository } from './helpers'
 
 export const MessageResolvers = {
 	Query: {
-		messages: async () => {
+		messages: async (
+			_root: unknown,
+			_args: unknown,
+			context: {
+				id: string;
+			}
+		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const messages = await MessageRepository.find({
 				relations: {
 					from: true,
@@ -23,8 +33,15 @@ export const MessageResolvers = {
 					senderId: string;
 					text: string;
 				};
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const channel = await ChannelRepository.findOne({
 				where: {
 					id: args.input.channelId
@@ -68,8 +85,15 @@ export const MessageResolvers = {
 			args: {
 				messageId: string;
 				text: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const message = await MessageRepository.findOne({
 				where: {
 					id: args.messageId
@@ -98,8 +122,15 @@ export const MessageResolvers = {
 			_root: unknown,
 			args: {
 				messageId: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			await MessageRepository.delete(args.messageId);
 
 			return `Successfully deleted message #${args.messageId}`;

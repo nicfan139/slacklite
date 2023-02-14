@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 						<a
 							onClick={handleLogout}
-							className="flex items-center py-3 text-white border-b-2 border-red-700 hover:border-white transition-all"
+							className="flex items-center py-3 text-white no-underline border-b-2 border-red-700 hover:border-white transition-all"
 						>
 							<ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
 							LOGOUT

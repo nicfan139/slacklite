@@ -12,10 +12,6 @@ export const ChannelTypeDefs = gql`
 		deleteChannel(channelId: ID!): String!
 	}
 
-	type Subscription {
-		channelAdded: Channel!
-	}
-
 	type Channel {
 		id: ID!
 		name: String!

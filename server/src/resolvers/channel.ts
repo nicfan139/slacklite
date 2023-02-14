@@ -11,7 +11,17 @@ interface IChannelPayload {
 
 export const ChannelResolvers = {
 	Query: {
-		channels: async () => {
+		channels: async (
+			_root: unknown,
+			_args: unknown,
+			context: {
+				id: string;
+			}
+		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const channels = await ChannelRepository.find({
 				relations: ['owner', 'members', 'messages', 'messages.from'],
 				order: {
@@ -28,8 +38,15 @@ export const ChannelResolvers = {
 			_root: unknown,
 			args: {
 				channelId: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const channel = await ChannelRepository.findOne({
 				where: {
 					id: args.channelId
@@ -55,8 +72,15 @@ export const ChannelResolvers = {
 			_root: unknown,
 			args: {
 				input: IChannelPayload;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const owner = await UserRepository.findOneBy({
 				id: args.input.ownerId
 			});
@@ -85,8 +109,15 @@ export const ChannelResolvers = {
 			args: {
 				channelId: string;
 				input: IChannelPayload;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const members: User[] = await Promise.all(
 				args.input.members.map(async (userId: string) => {
 					const user = await UserRepository.findOneBy({ id: userId });
@@ -114,8 +145,15 @@ export const ChannelResolvers = {
 			_root: unknown,
 			args: {
 				channelId: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const CHANNEL_ID_TO_DELETE = args.channelId;
 			const channel = await ChannelRepository.findOne({
 				where: {

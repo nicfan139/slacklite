@@ -11,10 +11,6 @@ export const MessageTypeDefs = gql`
 		deleteMessage(messageId: ID!): String!
 	}
 
-	type Subscription {
-		messageAdded: Message!
-	}
-
 	type Message {
 		id: ID!
 		channel: Channel!

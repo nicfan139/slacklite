@@ -15,7 +15,17 @@ interface IUserPayload {
 
 export const UserResolvers = {
 	Query: {
-		users: async () => {
+		users: async (
+			_root: unknown,
+			_args: unknown,
+			context: {
+				id: string;
+			}
+		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const users = await UserRepository.find({
 				order: {
 					createdAt: 'DESC'
@@ -28,8 +38,15 @@ export const UserResolvers = {
 			_root: unknown,
 			args: {
 				userId: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const user = await UserRepository.findOne({
 				where: {
 					id: args.userId
@@ -53,8 +70,15 @@ export const UserResolvers = {
 			_root: unknown,
 			args: {
 				input: IUserPayload;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
 			const hashedPassword = await bcrypt.hash(args.input.password, Number(BCRYPT_SALT_ROUNDS));
 			if (hashedPassword) {
@@ -75,8 +99,15 @@ export const UserResolvers = {
 			args: {
 				userId: string;
 				input: IUserPayload;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			const user = await UserRepository.findOneBy({
 				id: args.userId
 			});
@@ -94,8 +125,15 @@ export const UserResolvers = {
 			_root: unknown,
 			args: {
 				userId: string;
+			},
+			context: {
+				id: string;
 			}
 		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
 			await UserRepository.delete(args.userId);
 			return `Successfully deleted user #${args.userId}`;
 		}

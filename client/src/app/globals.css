@@ -8,4 +8,29 @@ body {
 
 a {
 	cursor: pointer;
+	text-decoration: underline;
+}
+
+/*
+	Scrollbar
+*/
+/* Firefox */
+* {
+	scrollbar-width: auto;
+	scrollbar-color: #c8c8c8 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+	width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+	background: none;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #c8c8c8;
+	border-radius: 10px;
+	border: 3px solid #ffffff;
 }
