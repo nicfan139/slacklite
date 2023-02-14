@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { twJoin } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
+import Loading from './Loading';
 
 interface IButtonProps {
 	type: 'button' | 'submit';
@@ -22,11 +23,12 @@ const Button = ({
 	className,
 	children
 }: IButtonProps): React.ReactElement => {
-	const twClass = twJoin(
+	const twClass = twMerge(
 		'flex flex-row justify-center items-center p-2 px-4 rounded',
-		color === 'primary' && 'border-2 border-blue-500 bg-blue-500 text-white',
-		color === 'secondary' && 'border-2 border-blue-500 bg-white text-blue-500',
-		color === 'tertiary' && 'border-0 bg-white text-black',
+		color === 'primary' && 'border-2 border-red-500 bg-red-500 text-white',
+		color === 'secondary' && 'border-2 border-red-500 bg-white text-red-500',
+		color === 'tertiary' &&
+			'px-2 border-0 bg-white text-red-500 border-b-2 border-red-500 rounded-none shadow-none',
 		(isLoading || disabled) && 'border-2 border-slate-400 bg-slate-400 cursor-not-allowed',
 		className
 	);
@@ -52,7 +54,7 @@ const Button = ({
 			className={twClass}
 			disabled={isLoading || disabled}
 		>
-			{children}
+			{isLoading ? <Loading /> : children}
 		</button>
 	);
 };

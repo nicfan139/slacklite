@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
 import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
+import Button from './Button';
 
 interface INotificationProps {
 	type: 'warning' | 'error';
@@ -37,30 +38,25 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 						leaveTo="opacity-0 scale-95"
 					>
 						<Dialog.Panel className="w-full max-w-md transform overflow-hidden flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
-							{type === 'warning' && (
-								<div>
+							<div className="mb-2">
+								{type === 'warning' && (
 									<ExclamationTriangleIcon className="h-16 w-16 text-orange-500 dark:text-white" />
-								</div>
-							)}
-
-							{type === 'error' && (
-								<div>
-									<ExclamationCircleIcon className="h-16 w-16 text-red-500 dark:text-white" />
-								</div>
-							)}
+								)}
+								{type === 'error' && (
+									<div>
+										<ExclamationCircleIcon className="h-16 w-16 text-red-500 dark:text-white" />
+									</div>
+								)}
+							</div>
 
 							<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
 								{title}
 							</Dialog.Title>
 
 							<div className="mt-4">
-								<button
-									type="button"
-									className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-									onClick={onClose}
-								>
+								<Button color="primary" type="button" onClick={onClose}>
 									Ok, I understand
-								</button>
+								</Button>
 							</div>
 						</Dialog.Panel>
 					</Transition.Child>

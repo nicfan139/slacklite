@@ -10,10 +10,10 @@ import { useServer as useWsServer } from 'graphql-ws/lib/use/ws';
 import { createServer as createHttpServer } from 'http';
 import { WebSocketServer } from 'ws';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-// import bcrypt from 'bcrypt';
 import { AppDataSource } from './typeOrm';
 import { typeDefs } from './typeDefs';
 import { resolvers } from './resolvers';
+import authRoutes from './routes/auth';
 
 dotenv.config();
 
@@ -41,14 +41,7 @@ const server = async () => {
 		})
 	);
 
-	// TODO: Create login route
-	// app.get('/api/login', (_req: Request, res: Response) => {
-	// 	bcrypt.compare(req.body.password, "")
-
-	// 	res.status(200).json({
-	// 		message: 'Hello there'
-	// 	});
-	// });
+	app.use('/api/auth', authRoutes);
 
 	const getHttpContext = ({ req }: { req: Request }) => {
 		if (req.auth) {

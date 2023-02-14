@@ -1,22 +1,15 @@
 'use client';
-import { useState } from 'react';
-import { Notification } from '@/components';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/contexts';
 
 export default function Home() {
-	const [isOpen, setIsOpen] = useState(false);
+	const router = useRouter();
+	const { currentUser } = useUserContext();
 
-	return (
-		<main className={`text-3xl`}>
-			<button type="button" onClick={() => setIsOpen(true)}>
-				Open
-			</button>
+	useEffect(() => {
+		router.push(currentUser ? '/dashboard' : '/login');
+	}, [currentUser]);
 
-			<Notification
-				type="warning"
-				isOpen={isOpen}
-				onClose={() => setIsOpen(false)}
-				title="Welcome!"
-			/>
-		</main>
-	);
+	return <></>;
 }

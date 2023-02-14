@@ -1,5 +1,3 @@
 export default function LoginHead() {
-  return (
-    <title>Login | Slacklite</title>
-  )
+	return <title>Login | Slacklite</title>;
 }

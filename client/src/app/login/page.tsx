@@ -1,9 +1,10 @@
 'use client';
-import { useState } from 'react';
-import { Tab } from '@headlessui/react';
-import { twJoin } from 'tailwind-merge';
-import ChatBubbleLeftRightIcon from '@heroicons/react/24/outline/ChatBubbleLeftRightIcon'
-import { Box, Input, Button } from '@/components';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import ChatBubbleLeftRightIcon from '@heroicons/react/24/outline/ChatBubbleLeftRightIcon';
+import { Tabs, Box, Input, Button } from '@/components';
+import { useUserContext, useNotificationContext } from '@/contexts';
+import { useUserLogin } from '@/hooks';
 
 interface ILoginForm {
 	email: string;
@@ -11,65 +12,79 @@ interface ILoginForm {
 }
 
 export default function LoginPage(): React.ReactElement {
+	const router = useRouter();
+	const { setCurrentUser } = useUserContext();
+	const { showNotification } = useNotificationContext();
+	const userLogin = useUserLogin();
+
 	const [form, setForm] = useState<ILoginForm>({
 		email: '',
 		password: ''
 	});
 
-	const TABS = [
-		{
-			name: 'Login',
-			selected: true
-		},
-		{
-			name: 'Register',
-			selected: false
+	const IS_FORM_VALID = Boolean(form.email && form.password);
+
+	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const { status, data } = await userLogin.mutateAsync(form);
+		if (status === 200) {
+			localStorage.setItem('slacklite-userAccessToken', data.accessToken);
+			setCurrentUser(data.user);
+			router.push('/dashboard');
+		} else {
+			showNotification({
+				type: 'error',
+				title: data.errorMessage
+			});
 		}
-	];
+	};
 
 	return (
-		<main className="h-screen w-screen flex flex-col justify-center items-center bg-blue-400">
-			<Tab.Group>
-				<Tab.List className="flex space-x-1 mb-4 rounded-lg bg-blue-900/20 p-1">
-					{TABS.map(({ name, selected }) => {
-						const className = twJoin(
-							'w-32 rounded-lg p-4 text-md font-medium leading-5 text-blue-700 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-							selected
-								? 'bg-white shadow font-semibold'
-								: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
-						);
-						return <Tab className={className}>{name}</Tab>;
-					})}
-				</Tab.List>
-			</Tab.Group>
+		<main className="h-screen w-screen flex flex-col justify-center items-center bg-red-400">
+			<Tabs
+				tabList={[
+					{
+						tabName: 'Login',
+						href: '/login'
+					},
+					{
+						tabName: 'Register',
+						href: '/register'
+					}
+				]}
+				activeTabIndex={0}
+			/>
 
-			<Box>
-        <div className='flex items-center mb-4'>
-          <ChatBubbleLeftRightIcon className='h-20 w-20 md:mr-2' />
-          
-          <h1 className="text-2xl font-bold">
-            Login to Slacklite
-          </h1>
-        </div>
+			<Box className="max-w-screen-sm">
+				<div className="flex items-center mb-4">
+					<ChatBubbleLeftRightIcon className="h-20 w-20 md:mr-2" />
 
-        <form>
-          <Input
-            label="Email"
-            type='email'
-            onChange={(email) => setForm({ ...form, email })}
-            autoFocus
-          />
+					<h1 className="text-2xl font-bold">Login to Slacklite</h1>
+				</div>
 
-          <Input
-            label="Password"
-            type='password'
-            onChange={(password) => setForm({ ...form, password })}
-          />
+				<form onSubmit={onSubmit}>
+					<Input
+						label="Email"
+						type="email"
+						onChange={(email) => setForm({ ...form, email })}
+						autoFocus
+					/>
 
-          <Button color="primary" type="submit" disabled={!Boolean(form.email && form.password)}>
-            Submit
-          </Button>
-        </form>
+					<Input
+						label="Password"
+						type="password"
+						onChange={(password) => setForm({ ...form, password })}
+					/>
+
+					<Button
+						color="primary"
+						type="submit"
+						isLoading={userLogin.isLoading}
+						disabled={!IS_FORM_VALID}
+					>
+						Submit
+					</Button>
+				</form>
 			</Box>
 		</main>
 	);
