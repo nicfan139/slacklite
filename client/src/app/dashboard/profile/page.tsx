@@ -6,12 +6,14 @@ import { Loading, Title, Heading, Box, Button, Label } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useUserQuery } from '@/graphql';
 import UpdateUserDetails from './UpdateUserDetails';
+import UpdateUserPassword from './UpdateUserPassword';
 
 export default function ProfilePage(): React.ReactElement {
 	const { currentUser, setCurrentUser } = useUserContext();
 	const { isLoading: isLoadingUser, user } = useUserQuery(currentUser?.id);
 
 	const [showUpdateUserDetails, toggleUpdateUserDetails] = useState<boolean>(false);
+	const [showUpdateUserPassword, toggleUpdateUserPassword] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (user) {
@@ -27,6 +29,10 @@ export default function ProfilePage(): React.ReactElement {
 				isOpen={showUpdateUserDetails}
 				toggleUpdateUserDetails={toggleUpdateUserDetails}
 				user={user}
+			/>
+			<UpdateUserPassword
+				isOpen={showUpdateUserPassword}
+				toggleUpdateUserPassword={toggleUpdateUserPassword}
 			/>
 
 			<Title className="mb-4">
@@ -85,11 +91,15 @@ export default function ProfilePage(): React.ReactElement {
 					</div>
 
 					<div className="p-4">
-						<Heading>
+						<Heading className="mb-4">
 							<h3>Preferences</h3>
 						</Heading>
 
-						{/* TODO: add dark mode + change password */}
+						<Button color="toggle" type="button" onClick={() => toggleUpdateUserPassword(true)}>
+							Update password
+						</Button>
+            
+						{/* TODO: add dark mode */}
 					</div>
 				</div>
 			</Box>

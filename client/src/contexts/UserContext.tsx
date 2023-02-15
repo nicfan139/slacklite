@@ -22,7 +22,9 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 	const [currentUser, setCurrentUser] = useState<TUser | null>(null);
 
 	const redirectToLogin = useCallback(() => {
-		window.location.href = '/login';
+		if (typeof window !== 'undefined') {
+			window.location.href = '/login';
+		}
 	}, []);
 
 	const validateUserToken = async (token: string) => {
@@ -30,7 +32,9 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 		if (status === 200 && data.isTokenValid && data.user) {
 			setCurrentUser(data.user);
 		} else if (!data.isTokenValid) {
-			localStorage.removeItem('slacklite-userAccessToken');
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem('slacklite-userAccessToken');
+			}
 			redirectToLogin();
 		}
 	};

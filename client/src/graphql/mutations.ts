@@ -14,6 +14,20 @@ export const UPDATE_USER_MUTATION = gql`
 	}
 `;
 
+export const UPDATE_USER_PASSWORD_MUTATION = gql`
+	mutation UpdateUserPasswordMutation($input: UpdatePasswordInput!) {
+		user: updateUserPassword(input: $input) {
+			id
+			firstName
+			lastName
+			email
+			isAdmin
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
 export const ADD_CHANNEL_MUTATION = gql`
 	mutation AddChannelMutation($input: ChannelInput!) {
 		channel: addChannel(input: $input) {

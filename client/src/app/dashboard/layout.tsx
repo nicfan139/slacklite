@@ -10,18 +10,15 @@ import ChatBubbleLeftIcon from '@heroicons/react/24/outline/ChatBubbleLeftIcon';
 import UserIcon from '@heroicons/react/24/outline/UserIcon';
 import DashboardProviders from './providers';
 import { Title } from '@/components';
+import { handleLogout } from '@/helpers';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
 	const { currentUser } = useUserContext();
 
-	const handleLogout = () => {
-		localStorage.removeItem('slacklite-userAccessToken');
-		window.location.href = '/login';
-	};
-
 	return (
 		<DashboardProviders>
+			{/* Navbar */}
 			<div className="h-screen w-screen relative flex flex-col justify-start items-center bg-red-400">
 				<nav className="absolute top-0 left-0 right-0 flex justify-between items-center px-8 py-2 bg-red-700 shadow-xl">
 					<div
@@ -99,6 +96,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 					</div>
 				</nav>
 
+				{/* Content */}
 				<main className="w-full max-w-4xl mt-24 mx-auto">{children}</main>
 			</div>
 		</DashboardProviders>

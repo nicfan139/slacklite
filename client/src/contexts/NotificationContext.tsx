@@ -8,6 +8,7 @@ interface INotificationContext {
 interface IShowNotificationOptions {
 	type: 'success' | 'warning' | 'error';
 	title: string;
+	onClose?: () => void;
 }
 
 const NotificationContext = createContext<INotificationContext>({
@@ -28,6 +29,10 @@ export const NotificationContextProvider = ({
 	};
 
 	const closeNotification = () => {
+		if (notification?.onClose) {
+			notification.onClose();
+		}
+
 		setIsOpen(false);
 		setTimeout(() => {
 			toggleNotification(null);

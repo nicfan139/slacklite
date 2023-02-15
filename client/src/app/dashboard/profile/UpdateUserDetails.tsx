@@ -25,11 +25,11 @@ const UpdateUserDetails = ({
 			email: user.email
 		}
 	});
-	const { isLoading: isLoadingUserUpdate, addMessage } = useUserUpdateMutation();
+	const { isLoading: isLoadingUserUpdate, updateUser } = useUserUpdateMutation();
 	const { showNotification } = useNotificationContext();
 
 	const onSubmit = async (data: TUpdateUserForm) => {
-		const response = await addMessage(user.id, data);
+		const response = await updateUser(user.id, data);
 		if (response) {
 			showNotification({ type: 'success', title: 'Updated details successfully' });
 			toggleUpdateUserDetails(false);

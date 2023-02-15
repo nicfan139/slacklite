@@ -4,6 +4,11 @@ export interface IUpdateUserInput {
 	email: string;
 }
 
+export interface IUpdatePasswordInput {
+	currentPassword: string;
+	newPassword: string;
+}
+
 export interface IAddChannelInput {
 	name: string;
 	description?: string;

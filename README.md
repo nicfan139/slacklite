@@ -1,6 +1,6 @@
 # Slacklite
 
-A chat app inspired by Slack. Think of this as a "dumbed-down" small-scale version of the real thing.
+A chat app built for fun, inspired by Slack. Think of this as a "dumbed-down" small-scale version of the real thing.
 
 ## Tech stack
 
@@ -8,6 +8,7 @@ Client:
 - Next.js 13
 - React
 - TypeScript
+- Context API
 - Tailwind CSS + Headless UI
 - GraphQL
 - Apollo Client

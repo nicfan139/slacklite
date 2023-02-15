@@ -2,8 +2,18 @@ import { useQuery, useMutation } from '@apollo/client';
 import { getAuthContext } from '@/helpers';
 import { TChannel, TMessage, TUser } from '@/types';
 import { USERS_QUERY, USER_QUERY, CHANNEL_QUERY } from './queries';
-import { UPDATE_USER_MUTATION, ADD_CHANNEL_MUTATION, ADD_MESSAGE_MUTATION } from './mutations';
-import { IUpdateUserInput, IAddChannelInput, IAddMessageInput } from './types';
+import {
+	UPDATE_USER_MUTATION,
+	UPDATE_USER_PASSWORD_MUTATION,
+	ADD_CHANNEL_MUTATION,
+	ADD_MESSAGE_MUTATION
+} from './mutations';
+import {
+	IUpdateUserInput,
+	IUpdatePasswordInput,
+	IAddChannelInput,
+	IAddMessageInput
+} from './types';
 
 export const useUsersQuery = () => {
 	const { data, loading } = useQuery<{ users: Array<TUser> }>(USERS_QUERY, {
@@ -42,7 +52,7 @@ export const useUserUpdateMutation = () => {
 
 	return {
 		isLoading: loading,
-		addMessage: async (userId: string, input: IUpdateUserInput) => {
+		updateUser: async (userId: string, input: IUpdateUserInput) => {
 			const {
 				data: { user }
 			} = await mutate({
@@ -57,6 +67,23 @@ export const useUserUpdateMutation = () => {
 						context: getAuthContext()
 					}
 				]
+			});
+			return user as TUser;
+		}
+	};
+};
+
+export const useUserUpdatePasswordMutation = () => {
+	const [mutate, { loading }] = useMutation(UPDATE_USER_PASSWORD_MUTATION);
+
+	return {
+		isLoading: loading,
+		updatePassword: async (input: IUpdatePasswordInput) => {
+			const {
+				data: { user }
+			} = await mutate({
+				variables: { input },
+				context: getAuthContext()
 			});
 			return user as TUser;
 		}

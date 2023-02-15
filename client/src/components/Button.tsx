@@ -24,7 +24,7 @@ const Button = ({
 	children
 }: IButtonProps): React.ReactElement => {
 	const twClass = twMerge(
-		'flex flex-row justify-center items-center p-2 px-4 rounded-lg',
+		'flex flex-row justify-center items-center p-2 px-4 rounded-lg font-semibold',
 		color === 'primary' && 'border-2 border-red-500 bg-red-500 text-white',
 		color === 'secondary' && 'border-2 border-red-500 bg-white text-red-500',
 		color === 'tertiary' &&

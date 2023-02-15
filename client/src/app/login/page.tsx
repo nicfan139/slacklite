@@ -24,9 +24,11 @@ export default function LoginPage(): React.ReactElement {
 	const onSubmit = async (form: ILoginForm) => {
 		const { status, data } = await userLogin.mutateAsync(form);
 		if (status === 200) {
-			localStorage.setItem('slacklite-userAccessToken', data.accessToken);
 			setCurrentUser(data.user);
-			window.location.href = '/dashboard';
+			if (typeof window !== 'undefined') {
+				localStorage.setItem('slacklite-userAccessToken', data.accessToken);
+				window.location.href = '/dashboard';
+			}
 		} else {
 			showNotification({
 				type: 'error',

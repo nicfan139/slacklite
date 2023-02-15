@@ -9,6 +9,7 @@ export const UserTypeDefs = gql`
 	type Mutation {
 		addUser(input: AddUserInput!): User!
 		updateUser(userId: ID!, input: UpdateUserInput!): User!
+		updateUserPassword(input: UpdatePasswordInput!): User!
 		deleteUser(userId: ID!): String!
 	}
 
@@ -38,5 +39,10 @@ export const UserTypeDefs = gql`
 		lastName: String!
 		email: String!
 		isAdmin: Boolean
+	}
+
+	input UpdatePasswordInput {
+		currentPassword: String!
+		newPassword: String!
 	}
 `;

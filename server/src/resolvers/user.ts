@@ -126,6 +126,50 @@ export const UserResolvers = {
 			}
 		},
 
+		updateUserPassword: async (
+			_root: unknown,
+			args: {
+				input: {
+					currentPassword: string;
+					newPassword: string;
+				};
+			},
+			context: {
+				id: string;
+			}
+		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
+			const user = await UserRepository.findOneBy({ id: context.id });
+
+			if (user) {
+				const passwordMatch = await bcrypt.compare(args.input.currentPassword, user.password);
+				if (passwordMatch) {
+					const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
+					const hashedPassword = await bcrypt.hash(
+						args.input.newPassword,
+						Number(BCRYPT_SALT_ROUNDS)
+					);
+					if (hashedPassword) {
+						const payload = {
+							...user,
+							password: hashedPassword
+						};
+						const updatedUser = await UserRepository.save(payload);
+						return updatedUser;
+					} else {
+						throw new GraphQLError('Unable to encrypt new password');
+					}
+				} else {
+					throw new GraphQLError(`Current password entered for user #${context.id} is incorrect`);
+				}
+			} else {
+				throw new GraphQLError(`Unable to fetch details for user #${context.id}`);
+			}
+		},
+
 		deleteUser: async (
 			_root: unknown,
 			args: {
