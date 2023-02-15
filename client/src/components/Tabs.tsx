@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Tab } from '@headlessui/react';
-import { twJoin } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
 
 interface ITabsProps {
 	tabList: Array<{
@@ -9,16 +9,17 @@ interface ITabsProps {
 		onClick?: () => void;
 	}>;
 	activeTabIndex: number;
+	className?: string;
 }
 
-const Tabs = ({ tabList, activeTabIndex }: ITabsProps): React.ReactElement => (
+const Tabs = ({ tabList, activeTabIndex, className }: ITabsProps): React.ReactElement => (
 	<Tab.Group>
-		<Tab.List className="flex space-x-1 mb-4 rounded-lg bg-red-900/20 p-1">
+		<Tab.List className={twMerge('flex space-x-1 rounded-lg bg-red-900/20 p-1', className)}>
 			{tabList.map(({ tabName, href, onClick }, index) => {
 				const IS_SELECTED_TAB = activeTabIndex === index;
 
-				const className = twJoin(
-					'w-32 rounded-lg p-4 text-md font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-red-400 focus:outline-none focus:ring-2 transition-all',
+				const className = twMerge(
+					'w-32 rounded-lg p-4 text-md font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-red-400 transition-all',
 					IS_SELECTED_TAB
 						? 'text-red-700 bg-white shadow font-semibold'
 						: 'text-white hover:bg-white/[0.12]'

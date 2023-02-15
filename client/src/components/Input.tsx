@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { Label } from './Typography';
 
 interface IInputProps {
 	label?: string;
@@ -6,6 +7,7 @@ interface IInputProps {
 	placeholder?: string;
 	maxLength?: number;
 	onChange: (value: string) => void;
+	value?: string;
 	autoFocus?: boolean;
 }
 
@@ -15,22 +17,19 @@ const Input = ({
 	placeholder,
 	maxLength,
 	onChange,
+	value,
 	autoFocus = false
 }: IInputProps) => {
 	return (
 		<div className="flex flex-col mb-4">
-			{label && (
-				<label htmlFor={label} className="mb-1 font-semibold">
-					{label}
-				</label>
-			)}
+			{label && <Label>{label}</Label>}
 
 			<input
-				name={label}
 				type={type}
 				placeholder={placeholder}
 				maxLength={maxLength}
 				onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+				value={value}
 				autoFocus={autoFocus}
 				className="p-2 border rounded-lg"
 			/>

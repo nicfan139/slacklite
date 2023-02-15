@@ -37,6 +37,6 @@ export const UserTypeDefs = gql`
 		firstName: String!
 		lastName: String!
 		email: String!
-		isAdmin: Boolean!
+		isAdmin: Boolean
 	}
 `;

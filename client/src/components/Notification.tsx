@@ -1,11 +1,12 @@
 import { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
+import CheckCircleIcon from '@heroicons/react/24/outline/CheckCircleIcon';
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
 import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
 import Button from './Button';
 
 interface INotificationProps {
-	type: 'warning' | 'error';
+	type: 'success' | 'warning' | 'error';
 	isOpen: boolean;
 	onClose: () => void;
 	title: string;
@@ -39,6 +40,9 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 					>
 						<Dialog.Panel className="w-full max-w-md transform overflow-hidden flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
 							<div className="mb-2">
+								{type === 'success' && (
+									<CheckCircleIcon className="h-16 w-16 text-green-500 dark:text-white" />
+								)}
 								{type === 'warning' && (
 									<ExclamationTriangleIcon className="h-16 w-16 text-orange-500 dark:text-white" />
 								)}
@@ -55,7 +59,7 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 
 							<div className="mt-4">
 								<Button color="primary" type="button" onClick={onClose}>
-									Ok, I understand
+									Ok
 								</Button>
 							</div>
 						</Dialog.Panel>

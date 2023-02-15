@@ -1,7 +1,7 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import ChatBubbleLeftRightIcon from '@heroicons/react/24/outline/ChatBubbleLeftRightIcon';
-import { Tabs, Box, Input, Button } from '@/components';
+import { Tabs, Box, Title, Input, Button } from '@/components';
 import { useUserContext, useNotificationContext } from '@/contexts';
 import { useUserLogin } from '@/hooks';
 
@@ -52,13 +52,16 @@ export default function LoginPage(): React.ReactElement {
 					}
 				]}
 				activeTabIndex={0}
+				className="mb-4"
 			/>
 
 			<Box className="max-w-screen-sm">
 				<div className="flex items-center mb-4">
-					<ChatBubbleLeftRightIcon className="h-20 w-20 md:mr-2" />
+					<ChatBubbleLeftRightIcon className="h-20 w-20 md:mr-2 text-slate-800" />
 
-					<h1 className="text-2xl font-bold">Login to Slacklite</h1>
+					<Title>
+						<h1>Login to Slacklite</h1>
+					</Title>
 				</div>
 
 				<form onSubmit={handleSubmit(onSubmit)}>

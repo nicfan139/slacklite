@@ -45,7 +45,7 @@ const Button = ({
 				type={type}
 				onClick={onClick}
 				className={twMerge(
-					'py-2 px-4 rounded-lg bg-red-800 text-white font-semibold',
+					'flex flex-row items-center py-2 px-4 rounded-lg bg-red-800 text-white font-semibold',
 					disabled && 'bg-slate-500 cursor-not-allowed',
 					className
 				)}

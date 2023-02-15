@@ -5,8 +5,8 @@ import { Combobox, Transition } from '@headlessui/react';
 import CheckIcon from '@heroicons/react/24/outline/CheckIcon';
 import ChevronUpDownIcon from '@heroicons/react/24/outline/ChevronUpDownIcon';
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon';
-import { Modal, Input, Button, Loading } from '@/components';
-import { useUserContext } from '@/contexts';
+import { Modal, Input, Label, Button, Loading } from '@/components';
+import { useUserContext, useNotificationContext } from '@/contexts';
 import { useUsersQuery, useAddChannelMutation } from '@/graphql';
 import { TUser } from '@/types';
 
@@ -15,14 +15,14 @@ interface IAddChannelProps {
 	toggleAddChannel: (show: boolean) => void;
 }
 
-interface AddChannelForm {
+interface IAddChannelForm {
 	name: string;
 	description: string;
 	members: Array<TUser>;
 }
 
 const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.ReactElement => {
-	const { handleSubmit, setValue, watch } = useForm<AddChannelForm>({
+	const { handleSubmit, setValue, watch } = useForm<IAddChannelForm>({
 		defaultValues: {
 			name: '',
 			description: '',
@@ -30,6 +30,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 		}
 	});
 	const { currentUser } = useUserContext();
+	const { showNotification } = useNotificationContext();
 	const { isLoading: isLoadingUsers, users } = useUsersQuery();
 	const { isLoading: isLoadingChannel, addChannel } = useAddChannelMutation();
 
@@ -58,7 +59,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 						.includes(memberQuery.toLowerCase().replace(/\s+/g, ''))
 			  );
 
-	const onSubmit = async (data: AddChannelForm) => {
+	const onSubmit = async (data: IAddChannelForm) => {
 		const channel = await addChannel({
 			name: data.name,
 			...(data.description && {
@@ -68,7 +69,16 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 			members: data.members.map((member) => member.id)
 		});
 		if (channel) {
+			showNotification({
+				type: 'success',
+				title: `Successully created the channel "${channel.name}"`
+			});
 			toggleAddChannel(false);
+		} else {
+			showNotification({
+				type: 'error',
+				title: 'Unable to create channel'
+			});
 		}
 	};
 
@@ -87,7 +97,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 				/>
 
 				<Input
-					label="Description"
+					label="Description (optional)"
 					type="text"
 					placeholder="Maximum 200 characters. Make it short and sweet!"
 					maxLength={200}
@@ -95,30 +105,33 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 				/>
 
 				<div className="flex flex-col mb-8">
-					<label className="font-semibold">Members (select at least 2)</label>
+					<Label className="mb-0">Members (select at least 2)</Label>
 
 					<div className="flex flex-wrap gap-2 my-2">
-						{FORM_STATE.members.map((member) => (
-							<div
-								key={`chip-${member.id}`}
-								className="flex items-center px-2 rounded-lg text-white bg-red-800"
-							>
-								<label className="mr-2">
-									{member.firstName} {member.lastName}
-								</label>
-								<button
-									type="button"
-									onClick={() =>
-										setValue(
-											'members',
-											FORM_STATE.members.filter((m) => m.id !== member.id)
-										)
-									}
+						{FORM_STATE.members.map((member) => {
+							const IS_CURRENT_USER = member.id === currentUser?.id;
+							return (
+								<div
+									key={`chip-${member.id}`}
+									className="flex items-center px-2 rounded-lg text-white bg-red-800"
 								>
-									<XMarkIcon className="h-4 w-4" />
-								</button>
-							</div>
-						))}
+									<label className="mr-2">
+										{member.firstName} {member.lastName} {IS_CURRENT_USER && '(You)'}
+									</label>
+									<button
+										type="button"
+										onClick={() =>
+											setValue(
+												'members',
+												FORM_STATE.members.filter((m) => m.id !== member.id)
+											)
+										}
+									>
+										<XMarkIcon className="h-4 w-4" />
+									</button>
+								</div>
+							);
+						})}
 					</div>
 
 					<Combobox
@@ -163,6 +176,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 											>
 												{({ active }) => {
 													const IS_SELECTED = FORM_STATE.members.find((m) => m.id === user.id);
+													const IS_CURRENT_USER = user.id === currentUser?.id;
 													return (
 														<>
 															<span
@@ -170,9 +184,9 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 																	IS_SELECTED ? 'font-medium' : 'font-normal'
 																}`}
 															>
-																{user.firstName} {user.lastName}
+																{user.firstName} {user.lastName} {IS_CURRENT_USER && '(You)'}
 															</span>
-															{IS_SELECTED ? (
+															{IS_SELECTED && (
 																<span
 																	className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
 																		active ? 'text-white' : 'text-teal-600'
@@ -180,7 +194,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 																>
 																	<CheckIcon className="h-5 w-5" aria-hidden="true" />
 																</span>
-															) : null}
+															)}
 														</>
 													);
 												}}

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Loading } from '@/components';
 import { useUserContext } from '@/contexts';
 
 export default function Home() {
@@ -11,5 +12,10 @@ export default function Home() {
 		router.push(currentUser ? '/dashboard' : '/login');
 	}, [currentUser]);
 
-	return <></>;
+	return (
+		<div className="h-screen w-screen flex flex-col justify-center items-center">
+			<Loading className="h-20 w-20" />
+			<p className="mt-2 text-xl">Redirecting</p>
+		</div>
+	);
 }

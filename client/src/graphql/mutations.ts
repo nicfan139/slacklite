@@ -1,5 +1,19 @@
 import { gql } from 'graphql-tag';
 
+export const UPDATE_USER_MUTATION = gql`
+	mutation UpdateUserMutation($userId: ID!, $input: UpdateUserInput!) {
+		user: updateUser(userId: $userId, input: $input) {
+			id
+			firstName
+			lastName
+			email
+			isAdmin
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
 export const ADD_CHANNEL_MUTATION = gql`
 	mutation AddChannelMutation($input: ChannelInput!) {
 		channel: addChannel(input: $input) {

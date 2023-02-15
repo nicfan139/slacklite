@@ -40,7 +40,10 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 				/>
 			)}
 			{textboxView === 'preview' && (
-				<ReactMarkdown children={message} className="h-20 w-full p-2 border bg-slate-100" />
+				<ReactMarkdown
+					children={message}
+					className="h-20 w-full overflow-y-auto p-2 border bg-slate-100"
+				/>
 			)}
 
 			<div className="w-full flex justify-between">

@@ -1,5 +1,6 @@
 import { ReactNode, ReactElement, Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
+import { Heading } from './Typography';
 
 interface IModalProps {
 	isOpen: boolean;
@@ -34,9 +35,9 @@ const Modal = ({ isOpen, title, children }: IModalProps): ReactElement => (
 						leaveTo="opacity-0 scale-95"
 					>
 						<Dialog.Panel className="w-full max-w-md transform flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
-							<Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900">
-								{title}
-							</Dialog.Title>
+							<Heading className="text-2xl font-semibold leading-6 text-gray-900">
+								<h3>{title}</h3>
+							</Heading>
 
 							<div className="w-full mt-4">{children}</div>
 						</Dialog.Panel>

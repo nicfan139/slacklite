@@ -36,7 +36,7 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 						</div>
 					</div>
 
-					<div className="h-4/6 overflow-y-scroll flex flex-col border bg-slate-50">
+					<div className="h-4/6 overflow-x-hidden overflow-y-scroll flex flex-col pb-4 border bg-slate-50">
 						{channel.messages.length > 0 ? (
 							channel.messages.map((message) => (
 								<div className="w-full flex justify-between py-2 px-4 hover:bg-slate-100">
@@ -44,7 +44,7 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 										<label className="text-slate-800 font-bold">
 											{message.from.firstName} {message.from.lastName}
 										</label>
-										<ReactMarkdown children={message.text} />
+										<ReactMarkdown className="max-w-sm" children={message.text} />
 									</div>
 
 									<label>{dayjs(message.createdAt).format('YYYY-MM-DD hh:mm A')}</label>

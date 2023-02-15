@@ -1,3 +1,9 @@
+export interface IUpdateUserInput {
+	firstName: string;
+	lastName: string;
+	email: string;
+}
+
 export interface IAddChannelInput {
 	name: string;
 	description?: string;

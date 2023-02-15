@@ -6,7 +6,7 @@ interface INotificationContext {
 }
 
 interface IShowNotificationOptions {
-	type: 'warning' | 'error';
+	type: 'success' | 'warning' | 'error';
 	title: string;
 }
 
@@ -42,7 +42,7 @@ export const NotificationContextProvider = ({
 		>
 			<Notification
 				isOpen={isOpen}
-				type={notification?.type as 'warning' | 'error'}
+				type={notification?.type as 'success' | 'warning' | 'error'}
 				title={notification?.title as string}
 				onClose={closeNotification}
 			/>

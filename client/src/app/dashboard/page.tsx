@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Loading, Button } from '@/components';
+import { Loading, Title, Button } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useUserQuery } from '@/graphql';
 import AddChannel from './AddChannel';
@@ -25,14 +25,22 @@ export default function DashboardPage(): React.ReactElement {
 			<AddChannel isOpen={showAddChannel} toggleAddChannel={toggleAddChannel} />
 
 			<div className="flex mb-4">
-				<h2 className="text-4xl mr-4 text-slate-800 font-bold">Channels</h2>
+				<Title>
+					<h2>Channels</h2>
+				</Title>
 
 				<Button type="button" color="toggle" onClick={() => toggleAddChannel(true)}>
 					Add
 				</Button>
 			</div>
 
-			<ChatDashboard channels={currentUser.channels} />
+			<section className="hidden md:block">
+				<ChatDashboard channels={currentUser.channels} />
+			</section>
+
+			<section className="block md:hidden">
+				The chat dashboard has not been optimized for mobile yet :/
+			</section>
 		</div>
 	);
 }
