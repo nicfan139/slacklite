@@ -54,6 +54,11 @@ export const UserResolvers = {
 				relations: {
 					channels: true,
 					channelsOwned: true
+				},
+				order: {
+					channels: {
+						name: 'ASC'
+					}
 				}
 			});
 

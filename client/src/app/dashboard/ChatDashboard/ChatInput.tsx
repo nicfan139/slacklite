@@ -36,11 +36,11 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 					placeholder="Enter a message here. You can also write markdown **like this** or _this_"
 					onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
 					value={message}
-					className="h-24 w-full resize-none p-2 border outline-none"
+					className="h-20 w-full resize-none p-2 border outline-none"
 				/>
 			)}
 			{textboxView === 'preview' && (
-				<ReactMarkdown children={message} className="h-24 w-full p-2 border bg-slate-100" />
+				<ReactMarkdown children={message} className="h-20 w-full p-2 border bg-slate-100" />
 			)}
 
 			<div className="w-full flex justify-between">

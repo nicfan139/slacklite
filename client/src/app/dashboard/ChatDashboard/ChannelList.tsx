@@ -22,7 +22,7 @@ const ChannelList = ({
 				IS_SELECTED && 'text-red-800 bg-white font-semibold'
 			);
 			return (
-				<div onClick={() => setSelectedChannel(c)} className={twClass}>
+				<div key={`channel-${c.id}`} onClick={() => setSelectedChannel(c)} className={twClass}>
 					<div className="h-6 w-6 items-center mr-3">{IS_SELECTED && <ChatBubbleLeftIcon />}</div>
 					<label>{c.name}</label>
 				</div>

@@ -4,11 +4,19 @@ interface IInputProps {
 	label?: string;
 	type: 'text' | 'email' | 'password';
 	placeholder?: string;
+	maxLength?: number;
 	onChange: (value: string) => void;
 	autoFocus?: boolean;
 }
 
-const Input = ({ label, type, placeholder, onChange, autoFocus = false }: IInputProps) => {
+const Input = ({
+	label,
+	type,
+	placeholder,
+	maxLength,
+	onChange,
+	autoFocus = false
+}: IInputProps) => {
 	return (
 		<div className="flex flex-col mb-4">
 			{label && (
@@ -21,6 +29,7 @@ const Input = ({ label, type, placeholder, onChange, autoFocus = false }: IInput
 				name={label}
 				type={type}
 				placeholder={placeholder}
+				maxLength={maxLength}
 				onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
 				autoFocus={autoFocus}
 				className="p-2 border rounded-lg"

@@ -3,23 +3,10 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserRepository } from '../resolvers/helpers';
-import { User } from '../entity/User';
 
 const router = Router();
 dotenv.config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
-
-const parseUserResponse = (user: User) => ({
-	id: user.id,
-	email: user.email,
-	firstName: user.firstName,
-	lastName: user.lastName,
-	isAdmin: user.isAdmin,
-	channels: user.channels,
-	channelsOwned: user.channelsOwned,
-	createdAt: user.createdAt,
-	updatedAt: user.updatedAt
-});
 
 router.post('/login', async (req: Request, res: Response) => {
 	const user = await UserRepository.findOne({
@@ -54,7 +41,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
 			res.status(200).json({
 				accessToken: token,
-				user: parseUserResponse(user)
+				user: {
+					id: user.id
+				}
 			});
 		} else {
 			res.status(400).json({
@@ -97,7 +86,9 @@ router.post('/validate_token', async (req: Request, res: Response) => {
 		if (user) {
 			res.status(200).json({
 				isTokenValid: true,
-				user: parseUserResponse(user)
+				user: {
+					id: user.id
+				}
 			});
 		} else {
 			res.status(500).json({

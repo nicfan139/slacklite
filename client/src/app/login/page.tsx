@@ -1,6 +1,5 @@
 'use client';
-import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import ChatBubbleLeftRightIcon from '@heroicons/react/24/outline/ChatBubbleLeftRightIcon';
 import { Tabs, Box, Input, Button } from '@/components';
 import { useUserContext, useNotificationContext } from '@/contexts';
@@ -12,25 +11,22 @@ interface ILoginForm {
 }
 
 export default function LoginPage(): React.ReactElement {
-	const router = useRouter();
+	const { handleSubmit, setValue, watch } = useForm<ILoginForm>({
+		defaultValues: {
+			email: '',
+			password: ''
+		}
+	});
 	const { setCurrentUser } = useUserContext();
 	const { showNotification } = useNotificationContext();
 	const userLogin = useUserLogin();
 
-	const [form, setForm] = useState<ILoginForm>({
-		email: '',
-		password: ''
-	});
-
-	const IS_FORM_VALID = Boolean(form.email && form.password);
-
-	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const onSubmit = async (form: ILoginForm) => {
 		const { status, data } = await userLogin.mutateAsync(form);
 		if (status === 200) {
 			localStorage.setItem('slacklite-userAccessToken', data.accessToken);
 			setCurrentUser(data.user);
-			router.push('/dashboard');
+			window.location.href = '/dashboard';
 		} else {
 			showNotification({
 				type: 'error',
@@ -38,6 +34,9 @@ export default function LoginPage(): React.ReactElement {
 			});
 		}
 	};
+
+	const FORM_STATE = watch();
+	const IS_FORM_VALID = Boolean(FORM_STATE.email && FORM_STATE.password);
 
 	return (
 		<main className="h-screen w-screen flex flex-col justify-center items-center bg-red-400">
@@ -62,18 +61,18 @@ export default function LoginPage(): React.ReactElement {
 					<h1 className="text-2xl font-bold">Login to Slacklite</h1>
 				</div>
 
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<Input
 						label="Email"
 						type="email"
-						onChange={(email) => setForm({ ...form, email })}
+						onChange={(email) => setValue('email', email)}
 						autoFocus
 					/>
 
 					<Input
 						label="Password"
 						type="password"
-						onChange={(password) => setForm({ ...form, password })}
+						onChange={(password) => setValue('password', password)}
 					/>
 
 					<Button

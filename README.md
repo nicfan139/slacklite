@@ -12,6 +12,7 @@ Client:
 - GraphQL
 - Apollo Client
 - React Query
+- React Hook Form
 - Heroicons
 - Markdown
 

@@ -4,7 +4,7 @@ import Loading from './Loading';
 
 interface IButtonProps {
 	type: 'button' | 'submit';
-	color: 'primary' | 'secondary' | 'tertiary';
+	color: 'primary' | 'secondary' | 'tertiary' | 'toggle';
 	href?: string;
 	onClick?: () => void;
 	isLoading?: boolean;
@@ -38,6 +38,23 @@ const Button = ({
 			onClick();
 		}
 	};
+
+	if (color === 'toggle') {
+		return (
+			<button
+				type={type}
+				onClick={onClick}
+				className={twMerge(
+					'py-2 px-4 rounded-lg bg-red-800 text-white font-semibold',
+					disabled && 'bg-slate-500 cursor-not-allowed',
+					className
+				)}
+				disabled={disabled}
+			>
+				{children}
+			</button>
+		);
+	}
 
 	if (href) {
 		return (
