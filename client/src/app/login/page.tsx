@@ -25,6 +25,10 @@ export default function LoginPage(): React.ReactElement {
 		const { status, data } = await userLogin.mutateAsync(form);
 		if (status === 200) {
 			setCurrentUser(data.user);
+			showNotification({
+				type: 'success',
+				title: 'Login successfull! You will be redirected in a few moments.'
+			});
 			if (typeof window !== 'undefined') {
 				localStorage.setItem('slacklite-userAccessToken', data.accessToken);
 				window.location.href = '/dashboard';

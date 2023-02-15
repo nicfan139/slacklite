@@ -60,21 +60,24 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 			  );
 
 	const onSubmit = async (data: IAddChannelForm) => {
-		const channel = await addChannel({
-			name: data.name,
-			...(data.description && {
-				description: data.description
-			}),
-			ownerId: currentUser?.id as string,
-			members: data.members.map((member) => member.id)
-		});
-		if (channel) {
+		try {
+			const channel = await addChannel({
+				name: data.name,
+				...(data.description && {
+					description: data.description
+				}),
+				ownerId: currentUser?.id as string,
+				members: data.members.map((member) => member.id)
+			});
+
 			showNotification({
 				type: 'success',
 				title: `Successully created the channel "${channel.name}"`
 			});
 			toggleAddChannel(false);
-		} else {
+		} catch (e) {
+			const error = e as Error;
+			console.log('Error: ', error.message);
 			showNotification({
 				type: 'error',
 				title: 'Unable to create channel'
@@ -169,7 +172,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 												key={user.id}
 												className={({ active }) =>
 													`relative cursor-default select-none py-2 pl-10 pr-4 ${
-														active ? 'bg-teal-600 text-white' : 'text-gray-900'
+														active ? 'bg-red-600 text-white' : 'text-gray-900'
 													}`
 												}
 												value={user}
@@ -189,7 +192,7 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 															{IS_SELECTED && (
 																<span
 																	className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-																		active ? 'text-white' : 'text-teal-600'
+																		active ? 'text-white' : 'text-red-600'
 																	}`}
 																>
 																	<CheckIcon className="h-5 w-5" aria-hidden="true" />

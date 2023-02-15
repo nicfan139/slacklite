@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { Channel } from './entity/Channel';
 import { Message } from './entity/Message';
+import { Preference } from './entity/Preference';
 import { User } from './entity/User';
 
 dotenv.config();
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
 	synchronize: false,
 	migrationsRun: false,
 	logging: false,
-	entities: [Channel, Message, User],
+	entities: [Channel, Message, User, Preference],
 	migrations: [process.env.TYPEORM_MIGRATION_DIR as string],
 	subscribers: []
 });

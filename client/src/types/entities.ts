@@ -11,6 +11,7 @@ export type TUser = TEntity & {
 	isAdmin: boolean;
 	channels: Array<TUserChannel>;
 	channelsOwned: Array<TUserChannel>;
+	preferences: TPreferences;
 };
 
 export type TChannel = TEntity & {
@@ -26,4 +27,13 @@ export type TMessage = TEntity & {
 	text: string;
 	from: TUser;
 	channel: TChannel;
+};
+
+export type TPreferencesColorScheme = 'red' | 'yellow' | 'blue' | 'green';
+export type TPreferencesChatNameDisplay = 'fullName' | 'firstName' | 'email';
+
+export type TPreferences = TEntity & {
+	colorScheme: TPreferencesColorScheme;
+	darkModeEnabled: boolean;
+	chatNameDisplay: TPreferencesChatNameDisplay;
 };

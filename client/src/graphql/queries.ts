@@ -32,6 +32,12 @@ export const USER_QUERY = gql`
 				name
 				description
 			}
+			preferences {
+				id
+				colorScheme
+				darkModeEnabled
+				chatNameDisplay
+			}
 			createdAt
 			updatedAt
 		}
@@ -62,6 +68,7 @@ export const CHANNEL_QUERY = gql`
 				from {
 					firstName
 					lastName
+					email
 				}
 				createdAt
 				updatedAt

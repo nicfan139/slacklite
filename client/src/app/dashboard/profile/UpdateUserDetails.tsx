@@ -29,11 +29,13 @@ const UpdateUserDetails = ({
 	const { showNotification } = useNotificationContext();
 
 	const onSubmit = async (data: TUpdateUserForm) => {
-		const response = await updateUser(user.id, data);
-		if (response) {
+		try {
+			await updateUser(user.id, data);
 			showNotification({ type: 'success', title: 'Updated details successfully' });
 			toggleUpdateUserDetails(false);
-		} else {
+		} catch (e) {
+			const error = e as Error;
+			console.log('Error: ', error.message);
 			showNotification({ type: 'error', title: 'Unable to update user details at this time' });
 		}
 	};

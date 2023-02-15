@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
-import { UserRepository } from './helpers';
+import { UserRepository, PreferenceRepository } from './helpers';
 
 dotenv.config();
 
@@ -31,6 +31,7 @@ export const UserResolvers = {
 					createdAt: 'DESC'
 				}
 			});
+
 			return users;
 		},
 
@@ -53,7 +54,8 @@ export const UserResolvers = {
 				},
 				relations: {
 					channels: true,
-					channelsOwned: true
+					channelsOwned: true,
+					preferences: true
 				},
 				order: {
 					channels: {
@@ -84,18 +86,32 @@ export const UserResolvers = {
 				throw new GraphQLError('Unauthorized');
 			}
 
-			const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
-			const hashedPassword = await bcrypt.hash(args.input.password, Number(BCRYPT_SALT_ROUNDS));
-			if (hashedPassword) {
-				const payload = {
-					...args.input,
-					password: hashedPassword
-				};
-				const user = await UserRepository.create(payload);
-				const result = await UserRepository.save(user);
-				return result;
+			const existingUser = await UserRepository.findOneBy({ email: args.input.email });
+
+			if (!existingUser) {
+				const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
+				const hashedPassword = await bcrypt.hash(args.input.password, Number(BCRYPT_SALT_ROUNDS));
+				if (hashedPassword) {
+					const payload = {
+						...args.input,
+						password: hashedPassword
+					};
+					const user = await UserRepository.create(payload);
+					const savedUser = await UserRepository.save(user);
+
+					const preferences = await PreferenceRepository.create({
+						colorScheme: 'red',
+						darkModeEnabled: false,
+						user: savedUser
+					});
+					await PreferenceRepository.save(preferences);
+
+					return savedUser;
+				} else {
+					throw new GraphQLError('Unable to encrypt password');
+				}
 			} else {
-				throw new GraphQLError('Unable to encrypt password');
+				throw new GraphQLError(`User with email "${args.input.email} already exists"`);
 			}
 		},
 

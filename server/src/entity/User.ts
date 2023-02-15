@@ -5,10 +5,12 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	ManyToMany,
-	OneToMany
+	OneToMany,
+	OneToOne
 } from 'typeorm';
 import { Channel } from './Channel';
 import { Message } from './Message';
+import { Preference } from './Preference';
 
 @Entity()
 export class User {
@@ -50,4 +52,7 @@ export class User {
 
 	@OneToMany(() => Message, (message) => message.from)
 	messages!: Message[];
+
+	@OneToOne(() => Preference, (preference) => preference.user)
+	preferences!: Preference;
 }

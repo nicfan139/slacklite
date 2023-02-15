@@ -1,7 +1,15 @@
+import { TPreferencesChatNameDisplay, TPreferencesColorScheme } from '@/types';
+
 export interface IUpdateUserInput {
 	firstName: string;
 	lastName: string;
 	email: string;
+}
+
+export interface IUpdatePreferenceInput {
+	colorScheme: TPreferencesColorScheme;
+	darkModeEnabled: boolean;
+	chatNameDisplay: TPreferencesChatNameDisplay;
 }
 
 export interface IUpdatePasswordInput {

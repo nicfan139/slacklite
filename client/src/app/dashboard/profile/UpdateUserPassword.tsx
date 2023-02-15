@@ -35,20 +35,21 @@ const UpdateUserPassword = ({
 			return showNotification({ type: 'error', title: 'New password and confirmation must match' });
 		}
 
-		const response = await updatePassword({
-			currentPassword: data.currentPassword,
-			newPassword: data.newPassword
-		});
+		try {
+			await updatePassword({
+				currentPassword: data.currentPassword,
+				newPassword: data.newPassword
+			});
 
-		if (response) {
 			showNotification({
 				type: 'success',
-				title:
-					'Successfully updated password. You will now be redirected back to the login screen.',
+				title: `Successfully updated password. Once you click 'Ok', you will be redirected back to the login screen.`,
 				onClose: handleLogout
 			});
-		} else {
-			showNotification({ type: 'error', title: 'Unable to update user details at this time' });
+		} catch (e) {
+			const error = e as Error;
+			console.log('Error: ', error.message);
+			showNotification({ type: 'error', title: error.message });
 		}
 	};
 

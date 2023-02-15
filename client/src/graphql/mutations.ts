@@ -28,6 +28,17 @@ export const UPDATE_USER_PASSWORD_MUTATION = gql`
 	}
 `;
 
+export const UPDATE_PREFERENCE_MUTATION = gql`
+	mutation UpdatePreferenceMutation($preferenceId: ID!, $input: UpdatePreferenceInput!) {
+		preference: updatePreference(preferenceId: $preferenceId, input: $input) {
+			id
+			colorScheme
+			darkModeEnabled
+			chatNameDisplay
+		}
+	}
+`;
+
 export const ADD_CHANNEL_MUTATION = gql`
 	mutation AddChannelMutation($input: ChannelInput!) {
 		channel: addChannel(input: $input) {

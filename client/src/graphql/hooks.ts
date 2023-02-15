@@ -1,16 +1,18 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { getAuthContext } from '@/helpers';
-import { TChannel, TMessage, TUser } from '@/types';
+import { TChannel, TMessage, TPreferences, TUser } from '@/types';
 import { USERS_QUERY, USER_QUERY, CHANNEL_QUERY } from './queries';
 import {
 	UPDATE_USER_MUTATION,
 	UPDATE_USER_PASSWORD_MUTATION,
+	UPDATE_PREFERENCE_MUTATION,
 	ADD_CHANNEL_MUTATION,
 	ADD_MESSAGE_MUTATION
 } from './mutations';
 import {
 	IUpdateUserInput,
 	IUpdatePasswordInput,
+	IUpdatePreferenceInput,
 	IAddChannelInput,
 	IAddMessageInput
 } from './types';
@@ -86,6 +88,43 @@ export const useUserUpdatePasswordMutation = () => {
 				context: getAuthContext()
 			});
 			return user as TUser;
+		}
+	};
+};
+
+export const usePreferenceUpdateMutation = () => {
+	const [mutate, { loading }] = useMutation(UPDATE_PREFERENCE_MUTATION);
+
+	return {
+		isLoading: loading,
+		updatePreference: async ({
+			preferenceId,
+			input,
+			userId
+		}: {
+			preferenceId: string;
+			input: IUpdatePreferenceInput;
+			userId: string;
+		}) => {
+			const {
+				data: { preference }
+			} = await mutate({
+				variables: {
+					preferenceId,
+					input
+				},
+				context: getAuthContext(),
+				refetchQueries: [
+					{
+						query: USER_QUERY,
+						variables: {
+							userId
+						},
+						context: getAuthContext()
+					}
+				]
+			});
+			return preference as TPreferences;
 		}
 	};
 };

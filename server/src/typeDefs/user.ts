@@ -22,6 +22,7 @@ export const UserTypeDefs = gql`
 		isAdmin: Boolean!
 		channels: [Channel]
 		channelsOwned: [Channel]
+		preferences: Preference
 		createdAt: Float!
 		updatedAt: Float!
 	}
