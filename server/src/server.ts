@@ -64,7 +64,7 @@ const server = async () => {
 
 	httpServer.listen({ port: PORT }, () => {
 		console.log(`Server running on port ${PORT}`);
-		console.log(`GraphQL endpoint: http://localhost:${PORT}/api/graphql`);
+		console.log(`GraphQL endpoint: '<hostname>/api/graphql'`);
 	});
 };
 

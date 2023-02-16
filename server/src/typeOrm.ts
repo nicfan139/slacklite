@@ -22,7 +22,7 @@ export const AppDataSource = new DataSource({
     }
   },
 	synchronize: false,
-	migrationsRun: false,
+	migrationsRun: true,
 	logging: false,
 	entities: [Channel, Message, User, Preference],
 	migrations: [process.env.TYPEORM_MIGRATION_DIR as string],
