@@ -24,7 +24,7 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 				leaveFrom="opacity-100"
 				leaveTo="opacity-0"
 			>
-				<div className="fixed inset-0 bg-black bg-opacity-25" />
+				<div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
 			</Transition.Child>
 
 			<div className="fixed inset-0 overflow-y-auto">
@@ -53,7 +53,7 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 								)}
 							</div>
 
-							<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+							<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-slate-800 dark:text-white">
 								{title}
 							</Dialog.Title>
 

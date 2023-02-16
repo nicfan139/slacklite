@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import Loading from './Loading';
 
 interface IButtonProps {
@@ -23,10 +23,10 @@ const Button = ({
 	className,
 	children
 }: IButtonProps): React.ReactElement => {
-	const twClass = twMerge(
+	const twClass = twJoin(
 		'flex flex-row justify-center items-center p-2 px-4 rounded-lg font-semibold',
-		color === 'primary' && 'border-2 border-red-500 bg-red-500 text-white',
-		color === 'secondary' && 'border-2 border-red-500 bg-white text-red-500',
+		color === 'primary' && 'border-2 border-red-500 dark:border-slate-900 bg-red-500 dark:bg-slate-900 text-white',
+		color === 'secondary' && 'border-2 border-red-500 dark:border-slate-900 bg-white dark text-red-500 dark:text-slate-800',
 		color === 'tertiary' &&
 			'px-2 border-0 bg-white text-red-500 border-b-2 border-red-500 rounded-none shadow-none',
 		(isLoading || disabled) && 'border-2 border-slate-400 bg-slate-400 cursor-not-allowed',
@@ -44,8 +44,8 @@ const Button = ({
 			<button
 				type={type}
 				onClick={onClick}
-				className={twMerge(
-					'flex flex-row items-center py-2 px-4 rounded-lg bg-red-800 text-white font-semibold',
+				className={twJoin(
+					'flex flex-row items-center py-2 px-4 rounded-lg bg-red-800 dark:bg-slate-900 text-white font-semibold',
 					disabled && 'bg-slate-500 cursor-not-allowed',
 					className
 				)}

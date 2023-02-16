@@ -1,5 +1,5 @@
 'use client';
-import { Fragment } from 'react';
+import { useEffect, Fragment } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts';
 import { Menu, Transition } from '@headlessui/react';
@@ -16,11 +16,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	const router = useRouter();
 	const { currentUser } = useUserContext();
 
+	useEffect(() => {
+		if (currentUser?.preferences) {
+			const body = document.querySelector('body');
+			if (currentUser.preferences.darkModeEnabled) {
+				body?.classList.add('dark')
+			} else {
+				body?.classList.remove('dark')
+			}
+		}
+	}, [currentUser])
+
 	return (
 		<DashboardProviders>
 			{/* Navbar */}
-			<div className="h-screen w-screen relative flex flex-col justify-start items-center bg-red-400">
-				<nav className="absolute top-0 left-0 right-0 flex justify-between items-center px-8 py-2 bg-red-700 shadow-xl">
+			<div className="h-screen w-screen relative flex flex-col justify-start items-center bg-red-400 dark:bg-slate-600">
+				<nav className="absolute top-0 left-0 right-0 flex justify-between items-center px-8 py-2 bg-red-700 dark:bg-slate-800 shadow-xl">
 					<div
 						onClick={() => router.push('/dashboard')}
 						className="flex items-center text-white cursor-pointer"
@@ -40,7 +51,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 						<Menu as="div" className="relative inline-block text-left">
 							<div>
-								<Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-md font-semibold text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+								<Menu.Button className="inline-flex w-full justify-center rounded-md bg-black dark:bg-slate-900 bg-opacity-20 px-4 py-2 text-md font-semibold text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 									Menu
 									<ChevronDownIcon
 										className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
@@ -57,12 +68,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 								leaveFrom="transform opacity-100 scale-100"
 								leaveTo="transform opacity-0 scale-95"
 							>
-								<Menu.Items className="absolute right-0 mt-2 py-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<Menu.Items className="absolute right-0 mt-2 py-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 									<div>
 										<Menu.Item>
 											<button
 												onClick={() => router.push('/dashboard')}
-												className="w-full flex items-center p-2 hover:text-white hover:bg-red-500"
+												className="w-full flex items-center p-2 dark:text-white hover:text-white hover:bg-red-500 dark:hover:bg-slate-900"
 											>
 												<ChatBubbleLeftIcon className="h-5 w-5 mr-2" />
 												Chat
@@ -72,7 +83,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 										<Menu.Item>
 											<button
 												onClick={() => router.push('/dashboard/profile')}
-												className="w-full flex items-center p-2 hover:text-white hover:bg-red-500"
+												className="w-full flex items-center p-2 dark:text-white hover:text-white hover:bg-red-500 dark:hover:bg-slate-900"
 											>
 												<UserIcon className="h-5 w-5 mr-2" />
 												Profile
@@ -83,7 +94,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 										<Menu.Item>
 											<button
 												onClick={handleLogout}
-												className="w-full flex items-center p-2 hover:text-white hover:bg-red-500"
+												className="w-full flex items-center p-2 dark:text-white hover:text-white hover:bg-red-500 dark:hover:bg-slate-900"
 											>
 												<ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
 												Logout
@@ -97,7 +108,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 				</nav>
 
 				{/* Content */}
-				<main className="w-full max-w-4xl mt-24 mx-auto">{children}</main>
+				<main className="w-full max-w-4xl overflow-y-scroll md:overflow-y-hidden pt-24 pb-16 mb:pb-0 mx-auto">{children}</main>
 			</div>
 		</DashboardProviders>
 	);

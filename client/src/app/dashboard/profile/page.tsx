@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
+import { Switch } from '@headlessui/react';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import LockClosedIcon from '@heroicons/react/24/outline/LockClosedIcon';
 import { Loading, Title, Heading, Box, Button, Label, Select } from '@/components';
@@ -97,35 +98,35 @@ export default function ProfilePage(): React.ReactElement {
 						<div className="max-w-md">
 							<div className="mb-2 pb-2 border-b">
 								<Label>ID</Label>
-								<p>{currentUser.id}</p>
+								<p className="text-slate-800 dark:text-white">{currentUser.id}</p>
 							</div>
 
 							<div className="grid grid-cols-2 gap-2 mb-2 pb-2 border-b">
 								<div>
 									<Label>First name</Label>
-									<p>{currentUser.firstName}</p>
+									<p className="text-slate-800 dark:text-white">{currentUser.firstName}</p>
 								</div>
 
 								<div>
 									<Label>Last name</Label>
-									<p>{currentUser.lastName}</p>
+									<p className="text-slate-800 dark:text-white">{currentUser.lastName}</p>
 								</div>
 							</div>
 
 							<div className="mb-2 pb-2 border-b">
 								<Label>Email</Label>
-								<p>{currentUser.email}</p>
+								<p className="text-slate-800 dark:text-white">{currentUser.email}</p>
 							</div>
 
 							<div className="grid grid-cols-2 gap-2 mb-2">
 								<div>
 									<Label>Member since</Label>
-									<p>{dayjs(currentUser.createdAt).format('YYYY-MM-DD')}</p>
+									<p className="text-slate-800 dark:text-white">{dayjs(currentUser.createdAt).format('YYYY-MM-DD')}</p>
 								</div>
 
 								<div>
 									<Label>Last updated</Label>
-									<p>{dayjs(currentUser.updatedAt).format('YYYY-MM-DD')}</p>
+									<p className="text-slate-800 dark:text-white">{dayjs(currentUser.updatedAt).format('YYYY-MM-DD')}</p>
 								</div>
 							</div>
 						</div>
@@ -144,25 +145,25 @@ export default function ProfilePage(): React.ReactElement {
 							</Button>
 						</div>
 
-						{/* TODO: set up color scheme
-            <div className='flex justify-between items-center mb-4'>
-              <Label>
-                Color scheme
-              </Label>
-
-              <p>{user.preferences.colorScheme}</p>
-            </div>
-            */}
-
-						{/* TODO: set up dark mode
             <div className='flex justify-between items-center mb-4'>
               <Label>
                 Dark mode
               </Label>
 
-              <p>{String(user.preferences.darkModeEnabled)}</p>
+              <Switch
+                checked={preferences.darkModeEnabled}
+                onChange={() => setPreferences({ ...preferences, darkModeEnabled: !preferences.darkModeEnabled })}
+                className={`${preferences.darkModeEnabled ? 'bg-green-500' : 'bg-gray-700'}
+                  relative inline-flex h-8 w-16 shrink-0 cursor-pointer rounded-full border-2 border-transparent dark:border-white transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              >
+                <span className="sr-only">{preferences.darkModeEnabled ? 'YES' : 'NO'}</span>
+                <span
+                  aria-hidden="true"
+                  className={`${preferences.darkModeEnabled ? 'translate-x-8' : 'translate-x-0'}
+                    pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                />
+              </Switch>
             </div>
-            */}
 
 						<div className="flex justify-between items-center mb-4">
 							<Label className="mb-0">Name to display in chat</Label>
@@ -198,6 +199,7 @@ export default function ProfilePage(): React.ReactElement {
 							type="button"
 							onClick={onUpdatePreferencesSubmit}
 							isLoading={isLoadingUpdatePreference}
+              className="w-full mt-8 mb-4"
 						>
 							Update preferences
 						</Button>

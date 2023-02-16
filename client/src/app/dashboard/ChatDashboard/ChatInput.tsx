@@ -36,13 +36,13 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 					placeholder="Enter a message here. You can also write markdown **like this** or _this_"
 					onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
 					value={message}
-					className="h-20 w-full resize-none p-2 border outline-none"
+					className="h-20 w-full resize-none p-2 border outline-none dark:bg-slate-500 dark:text-white"
 				/>
 			)}
 			{textboxView === 'preview' && (
 				<ReactMarkdown
 					children={message}
-					className="h-20 w-full overflow-y-auto p-2 border bg-slate-100"
+					className="h-20 w-full overflow-y-auto p-2 border bg-slate-100 dark:bg-slate-600 dark:text-white"
 				/>
 			)}
 
@@ -51,8 +51,8 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 					<button
 						type="button"
 						onClick={() => setTextboxView('write')}
-						className={`px-3 py-2 border rounded-lg ${
-							textboxView === 'write' && 'bg-red-800 text-white font-semibold'
+						className={`px-3 py-2 border dark:text-white rounded-lg ${
+							textboxView === 'write' && 'bg-red-800 dark:bg-slate-600 text-white font-semibold'
 						}`}
 					>
 						Write
@@ -60,15 +60,15 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 					<button
 						type="button"
 						onClick={() => message && setTextboxView('preview')}
-						className={`px-3 py-2 border rounded-lg ${
-							textboxView === 'preview' && 'bg-red-800 text-white font-semibold'
+						className={`px-3 py-2 border dark:text-white rounded-lg ${
+							textboxView === 'preview' && 'bg-red-800 dark:bg-slate-600 text-white font-semibold'
 						} ${!message && 'cursor-not-allowed'}`}
 					>
 						Preview
 					</button>
 				</div>
 
-				<Button type="button" color="primary" isLoading={isLoading} onClick={onSendMessage}>
+				<Button type="button" color="primary" isLoading={isLoading} onClick={onSendMessage} className="dark:border-white">
 					<PaperAirplaneIcon className="h-5 w-5 mr-2" />
 					Send
 				</Button>

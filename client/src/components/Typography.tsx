@@ -7,13 +7,13 @@ interface ITypographyProps {
 }
 
 export const Title = ({ className, children }: ITypographyProps): ReactElement => (
-	<div className={twMerge('text-4xl mr-4 text-slate-800 font-bold', className)}>{children}</div>
+	<div className={twMerge('text-4xl text-slate-800 dark:text-white font-bold', className)}>{children}</div>
 );
 
 export const Heading = ({ className, children }: ITypographyProps): ReactElement => (
-	<div className={twMerge('text-2xl text-slate-800 font-semibold', className)}>{children}</div>
+	<div className={twMerge('text-2xl text-slate-800 dark:text-white font-semibold', className)}>{children}</div>
 );
 
 export const Label = ({ className, children }: ITypographyProps): ReactElement => (
-	<label className={twMerge('mb-1 text-slate-800 font-semibold', className)}>{children}</label>
+	<label className={twMerge('mb-1 text-slate-800 dark:text-white font-semibold', className)}>{children}</label>
 );

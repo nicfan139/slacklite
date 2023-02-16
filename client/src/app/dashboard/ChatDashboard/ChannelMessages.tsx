@@ -18,19 +18,19 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 		<Loading />;
 	}
 
-	const CHAT_NAME_PREFERENCE = currentUser?.preferences.chatNameDisplay;
+	const CHAT_NAME_PREFERENCE = currentUser?.preferences?.chatNameDisplay ?? 'fullName';
 
 	return (
-		<div className="w-full flex flex-col justify-center p-4 rounded-tr-lg rounded-br-lg bg-white">
+		<div className="w-full flex flex-col justify-center p-4 rounded-tr-lg rounded-br-lg bg-white dark:bg-slate-900">
 			{selectedChannelId && channel ? (
 				<>
 					<div className="flex justify-between items-end mb-2">
 						<div>
-							<h3 className="text-2xl text-red-500 font-semibold">{channel.name}</h3>
-							<p className="italic">{channel.description ?? 'No description'}</p>
+							<h3 className="text-2xl text-red-500 dark:text-white font-semibold">{channel.name}</h3>
+							<p className="text-slate-900 dark:text-white italic">{channel.description ?? 'No description'}</p>
 						</div>
 
-						<div className="flex flex-col items-end text-sm">
+						<div className="flex flex-col items-end text-sm dark:text-white">
 							<div className="flex">
 								<label className="mr-1">Owned by</label>
 								<p className="font-semibold">
@@ -42,16 +42,18 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 								<p className="font-semibold">{dayjs(channel.createdAt).format('YYYY-MM-DD')}</p>
 							</div>
 						</div>
+
+						{/* TODO: Add ability to delete channel */}
 					</div>
 
-					<div className="h-4/6 overflow-x-hidden overflow-y-scroll flex flex-col pb-4 border bg-slate-50">
+					<div className="h-4/6 overflow-x-hidden overflow-y-scroll flex flex-col pb-4 border bg-slate-50 dark:bg-slate-600 dark:text-white">
 						{channel.messages.length > 0 ? (
 							channel.messages.map((message) => {
 								const MESSAGE_OWNER = message.from;
 								return (
-									<div className="w-full flex justify-between py-2 px-4 hover:bg-slate-100">
+									<div className="w-full flex justify-between py-2 px-4 hover:bg-slate-100 dark:hover:bg-slate-500">
 										<div>
-											<label className="text-slate-800 font-bold">
+											<label className="text-slate-800 dark:text-white font-bold">
 												{CHAT_NAME_PREFERENCE === 'fullName' &&
 													`${MESSAGE_OWNER.firstName} ${MESSAGE_OWNER.lastName}`}
 												{CHAT_NAME_PREFERENCE === 'firstName' && MESSAGE_OWNER.firstName}
@@ -65,7 +67,7 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 								);
 							})
 						) : (
-							<label className="w-full m-4 text-center text-slate-800">
+							<label className="w-full m-4 text-center text-slate-800 dark:text-white">
 								No messages to display. Feel free to start this conversation!
 							</label>
 						)}
@@ -80,7 +82,7 @@ const ChannelMessages = ({ selectedChannelId }: IChannelMessagesProps): React.Re
 					) : (
 						<div className="h-full flex items-center m-4">
 							<ArrowSmallLeftIcon className="h-6 w-6" />
-							<label className="ml-2">Select a channel to get started!</label>
+							<label className="ml-2 dark:text-white">Select a channel to get started!</label>
 						</div>
 					)}
 				</div>

@@ -31,7 +31,7 @@ const Input = ({
 				onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
 				value={value}
 				autoFocus={autoFocus}
-				className="p-2 border rounded-lg"
+				className="p-2 border dark:border-slate-500 dark:bg-slate-500 dark:outline-none dark:text-white rounded-lg"
 			/>
 		</div>
 	);

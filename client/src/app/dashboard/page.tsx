@@ -25,7 +25,7 @@ export default function DashboardPage(): React.ReactElement {
 			<AddChannel isOpen={showAddChannel} toggleAddChannel={toggleAddChannel} />
 
 			<div className="flex mb-4">
-				<Title>
+				<Title className="mr-4">
 					<h2>Channels</h2>
 				</Title>
 

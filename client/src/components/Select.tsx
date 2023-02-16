@@ -45,7 +45,7 @@ const Select = ({ options, onChange, selectedValue, className }: ISelectProps): 
 								key={index}
 								className={({ active }) =>
 									`relative cursor-default select-none py-2 pl-10 pr-4 ${
-										active ? 'bg-red-100 text-red-900' : 'text-gray-900'
+										active ? 'bg-red-100 dark:bg-slate-500 text-red-900 dark:text-white' : 'text-slate-800'
 									}`
 								}
 								value={value}
@@ -56,8 +56,8 @@ const Select = ({ options, onChange, selectedValue, className }: ISelectProps): 
 											{label}
 										</span>
 										{selected && (
-											<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-red-600">
-												<CheckIcon className="h-5 w-5" aria-hidden="true" />
+											<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-red-600 dark:text-white">
+												<CheckIcon className="h-5 w-5 dark:text-slate-900 dark:hover:text-white" aria-hidden="true" />
 											</span>
 										)}
 									</>
