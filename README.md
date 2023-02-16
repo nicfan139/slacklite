@@ -16,6 +16,7 @@ Client:
 - React Hook Form
 - Heroicons
 - Markdown
+- Vercel
 
 Server:
 
@@ -26,6 +27,8 @@ Server:
 - Apollo Server
 - TypeORM
 - PostgreSQL
+- Heroku
+- Neon
 
 ## Authors
 
