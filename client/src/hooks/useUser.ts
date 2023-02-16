@@ -37,3 +37,23 @@ export const useValidateToken = () =>
 			data: await response.json()
 		} as IFetchResponse<TUseValidateTokenData>;
 	});
+
+interface IUserCreatePayload {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+}
+
+export const useUserCreate = () =>
+	useMutation(async (payload: IUserCreatePayload) => {
+		const response = await normalFetch({
+			route: '/users/register',
+			method: 'POST',
+			payload
+		});
+
+		return {
+			status: response.status
+		};
+	});

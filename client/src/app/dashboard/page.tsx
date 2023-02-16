@@ -36,7 +36,13 @@ export default function DashboardPage(): React.ReactElement {
 			</div>
 
 			<section className="hidden md:block">
-				<ChatDashboard channels={currentUser.channels} />
+				{currentUser.channels.length > 0 ? (
+					<ChatDashboard channels={currentUser.channels} />
+				) : (
+					<p className="my-6 text-xl text-slate-800 dark:text-white">
+						Welcome to Slacklite! Add a new channel to get started :)
+					</p>
+				)}
 			</section>
 
 			<section className="block md:hidden">

@@ -1,48 +1,52 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import ChatBubbleLeftRightIcon from '@heroicons/react/24/outline/ChatBubbleLeftRightIcon';
 import { Tabs, Box, Title, Input, Button } from '@/components';
-import { useUserContext, useNotificationContext } from '@/contexts';
-import { useUserLogin } from '@/hooks';
+import { useNotificationContext } from '@/contexts';
+import { useUserCreate } from '@/hooks';
 
-interface ILoginForm {
+interface IRegisterForm {
+	firstName: string;
+	lastName: string;
 	email: string;
 	password: string;
 }
 
-export default function LoginPage(): React.ReactElement {
-	const { handleSubmit, setValue, watch } = useForm<ILoginForm>({
+export default function RegisterPage() {
+	const router = useRouter();
+	const { handleSubmit, setValue, watch } = useForm<IRegisterForm>({
 		defaultValues: {
+			firstName: '',
+			lastName: '',
 			email: '',
 			password: ''
 		}
 	});
-	const { setCurrentUser } = useUserContext();
 	const { showNotification } = useNotificationContext();
-	const userLogin = useUserLogin();
+	const userCreate = useUserCreate();
 
-	const onSubmit = async (form: ILoginForm) => {
-		const { status, data } = await userLogin.mutateAsync(form);
-		if (status === 200) {
-			setCurrentUser(data.user);
+	const onSubmit = async (data: IRegisterForm) => {
+		const { status } = await userCreate.mutateAsync(data);
+		if (status === 201) {
 			showNotification({
 				type: 'success',
-				title: 'Login successfull! You will be redirected in a few moments.'
+				title:
+					"Successfully registered! Once 'Ok' is clicked, you will be redirected to the login screen",
+				onClose: () => router.push('/login')
 			});
-			if (typeof window !== 'undefined') {
-				localStorage.setItem('slacklite-userAccessToken', data.accessToken);
-				window.location.href = '/dashboard';
-			}
 		} else {
 			showNotification({
 				type: 'error',
-				title: data.errorMessage
+				title: 'Unable to register new user at this time'
 			});
 		}
 	};
 
 	const FORM_STATE = watch();
-	const IS_FORM_VALID = Boolean(FORM_STATE.email && FORM_STATE.password);
+	const IS_FORM_VALID = Boolean(
+		FORM_STATE.firstName && FORM_STATE.lastName && FORM_STATE.email && FORM_STATE.password
+	);
 
 	return (
 		<main className="h-screen w-screen flex flex-col justify-start items-center pt-20 bg-red-400">
@@ -57,7 +61,7 @@ export default function LoginPage(): React.ReactElement {
 						href: '/register'
 					}
 				]}
-				activeTabIndex={0}
+				activeTabIndex={1}
 				className="mb-4"
 			/>
 
@@ -66,11 +70,30 @@ export default function LoginPage(): React.ReactElement {
 					<ChatBubbleLeftRightIcon className="h-20 w-20 md:mr-2 text-slate-800" />
 
 					<Title>
-						<h1>Login to Slacklite</h1>
+						<h1>Sign up for Slacklite</h1>
 					</Title>
 				</div>
 
 				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className="w-full flex gap-2 justify-between">
+						<Input
+							label="First name"
+							type="text"
+							onChange={(firstName) => setValue('firstName', firstName)}
+							value={FORM_STATE.firstName}
+							autoFocus
+							className="w-full"
+						/>
+
+						<Input
+							label="Last name"
+							type="text"
+							onChange={(lastName) => setValue('lastName', lastName)}
+							value={FORM_STATE.lastName}
+							className="w-full"
+						/>
+					</div>
+
 					<Input
 						label="Email"
 						type="email"
@@ -89,7 +112,7 @@ export default function LoginPage(): React.ReactElement {
 					<Button
 						color="primary"
 						type="submit"
-						isLoading={userLogin.isLoading}
+						isLoading={userCreate.isLoading}
 						disabled={!IS_FORM_VALID}
 						className="mt-6"
 					>

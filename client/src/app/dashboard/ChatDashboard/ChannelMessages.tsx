@@ -95,7 +95,7 @@ const ChannelMessages = ({
 						<Loading className="h-20 w-20" />
 					) : (
 						<div className="h-full flex items-center m-4">
-							<ArrowSmallLeftIcon className="h-6 w-6" />
+							<ArrowSmallLeftIcon className="h-6 w-6 dark:text-white" />
 							<label className="ml-2 dark:text-white">Select a channel to get started!</label>
 						</div>
 					)}

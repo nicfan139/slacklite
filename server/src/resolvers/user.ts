@@ -102,6 +102,7 @@ export const UserResolvers = {
 					const preferences = await PreferenceRepository.create({
 						colorScheme: 'red',
 						darkModeEnabled: false,
+						chatNameDisplay: 'fullName',
 						user: savedUser
 					});
 					await PreferenceRepository.save(preferences);
