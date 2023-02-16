@@ -1,4 +1,4 @@
-# Slacklite client
+# Slacklite server
 
 Back-end built using Node.js + Express + TypeScript
 
