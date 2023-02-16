@@ -7,6 +7,7 @@ import {
 	UPDATE_USER_PASSWORD_MUTATION,
 	UPDATE_PREFERENCE_MUTATION,
 	ADD_CHANNEL_MUTATION,
+	DELETE_CHANNEL_MUTATION,
 	ADD_MESSAGE_MUTATION
 } from './mutations';
 import {
@@ -172,6 +173,30 @@ export const useAddChannelMutation = () => {
 				]
 			});
 			return channel as TChannel;
+		}
+	};
+};
+
+export const useDeleteChannelMutation = () => {
+	const [mutate, { loading }] = useMutation(DELETE_CHANNEL_MUTATION);
+
+	return {
+		isLoading: loading,
+		deleteChannel: async ({ channelId, ownerId }: { channelId: string; ownerId: string }) => {
+			const { data } = await mutate({
+				variables: { channelId },
+				context: getAuthContext(),
+				refetchQueries: [
+					{
+						query: USER_QUERY,
+						variables: {
+							userId: ownerId
+						},
+						context: getAuthContext()
+					}
+				]
+			});
+			return data;
 		}
 	};
 };

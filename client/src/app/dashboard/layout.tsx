@@ -20,12 +20,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 		if (currentUser?.preferences) {
 			const body = document.querySelector('body');
 			if (currentUser.preferences.darkModeEnabled) {
-				body?.classList.add('dark')
+				body?.classList.add('dark');
 			} else {
-				body?.classList.remove('dark')
+				body?.classList.remove('dark');
 			}
 		}
-	}, [currentUser])
+	}, [currentUser]);
 
 	return (
 		<DashboardProviders>
@@ -108,7 +108,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 				</nav>
 
 				{/* Content */}
-				<main className="w-full max-w-4xl overflow-y-scroll md:overflow-y-hidden pt-24 pb-16 mb:pb-0 mx-auto">{children}</main>
+				<main className="w-full max-w-4xl overflow-y-scroll md:overflow-y-hidden pt-24 pb-16 mb:pb-0 mx-auto">
+					{children}
+				</main>
 			</div>
 		</DashboardProviders>
 	);

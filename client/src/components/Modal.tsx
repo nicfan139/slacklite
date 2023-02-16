@@ -20,7 +20,7 @@ const Modal = ({ isOpen, title, children }: IModalProps): ReactElement => (
 				leaveFrom="opacity-100"
 				leaveTo="opacity-0"
 			>
-				<div className="fixed inset-0 bg-black bg-opacity-25" />
+				<div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
 			</Transition.Child>
 
 			<div className="fixed inset-0 overflow-y-auto">
@@ -35,7 +35,7 @@ const Modal = ({ isOpen, title, children }: IModalProps): ReactElement => (
 						leaveTo="opacity-0 scale-95"
 					>
 						<Dialog.Panel className="w-full max-w-md transform flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
-							<Heading className="text-2xl font-semibold leading-6 dark:text-white dark:bg-slate-700">
+							<Heading className="text-2xl text-center font-semibold leading-6 dark:text-white dark:bg-slate-700">
 								<h3>{title}</h3>
 							</Heading>
 

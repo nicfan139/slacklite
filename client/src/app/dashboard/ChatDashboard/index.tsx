@@ -13,7 +13,10 @@ const ChatDashboard = ({ channels }: IChatDashboardProps): React.ReactElement =>
 		<div className="h-128 flex">
 			<ChannelList {...{ channels, selectedChannel, setSelectedChannel }} />
 
-			<ChannelMessages selectedChannelId={selectedChannel?.id} />
+			<ChannelMessages
+				selectedChannelId={selectedChannel?.id}
+				setSelectedChannel={setSelectedChannel}
+			/>
 		</div>
 	);
 };

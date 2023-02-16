@@ -53,7 +53,10 @@ const Notification = ({ type, isOpen, onClose, title }: INotificationProps): Rea
 								)}
 							</div>
 
-							<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-slate-800 dark:text-white">
+							<Dialog.Title
+								as="h3"
+								className="text-lg font-medium leading-6 text-slate-800 dark:text-white"
+							>
 								{title}
 							</Dialog.Title>
 

@@ -121,12 +121,16 @@ export default function ProfilePage(): React.ReactElement {
 							<div className="grid grid-cols-2 gap-2 mb-2">
 								<div>
 									<Label>Member since</Label>
-									<p className="text-slate-800 dark:text-white">{dayjs(currentUser.createdAt).format('YYYY-MM-DD')}</p>
+									<p className="text-slate-800 dark:text-white">
+										{dayjs(currentUser.createdAt).format('YYYY-MM-DD')}
+									</p>
 								</div>
 
 								<div>
 									<Label>Last updated</Label>
-									<p className="text-slate-800 dark:text-white">{dayjs(currentUser.updatedAt).format('YYYY-MM-DD')}</p>
+									<p className="text-slate-800 dark:text-white">
+										{dayjs(currentUser.updatedAt).format('YYYY-MM-DD')}
+									</p>
 								</div>
 							</div>
 						</div>
@@ -145,25 +149,25 @@ export default function ProfilePage(): React.ReactElement {
 							</Button>
 						</div>
 
-            <div className='flex justify-between items-center mb-4'>
-              <Label>
-                Dark mode
-              </Label>
+						<div className="flex justify-between items-center mb-4">
+							<Label>Dark mode</Label>
 
-              <Switch
-                checked={preferences.darkModeEnabled}
-                onChange={() => setPreferences({ ...preferences, darkModeEnabled: !preferences.darkModeEnabled })}
-                className={`${preferences.darkModeEnabled ? 'bg-green-500' : 'bg-gray-700'}
+							<Switch
+								checked={preferences.darkModeEnabled}
+								onChange={() =>
+									setPreferences({ ...preferences, darkModeEnabled: !preferences.darkModeEnabled })
+								}
+								className={`${preferences.darkModeEnabled ? 'bg-green-500' : 'bg-gray-700'}
                   relative inline-flex h-8 w-16 shrink-0 cursor-pointer rounded-full border-2 border-transparent dark:border-white transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-              >
-                <span className="sr-only">{preferences.darkModeEnabled ? 'YES' : 'NO'}</span>
-                <span
-                  aria-hidden="true"
-                  className={`${preferences.darkModeEnabled ? 'translate-x-8' : 'translate-x-0'}
+							>
+								<span className="sr-only">{preferences.darkModeEnabled ? 'YES' : 'NO'}</span>
+								<span
+									aria-hidden="true"
+									className={`${preferences.darkModeEnabled ? 'translate-x-8' : 'translate-x-0'}
                     pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                />
-              </Switch>
-            </div>
+								/>
+							</Switch>
+						</div>
 
 						<div className="flex justify-between items-center mb-4">
 							<Label className="mb-0">Name to display in chat</Label>
@@ -199,7 +203,7 @@ export default function ProfilePage(): React.ReactElement {
 							type="button"
 							onClick={onUpdatePreferencesSubmit}
 							isLoading={isLoadingUpdatePreference}
-              className="w-full mt-8 mb-4"
+							className="w-full mt-8 mb-4"
 						>
 							Update preferences
 						</Button>

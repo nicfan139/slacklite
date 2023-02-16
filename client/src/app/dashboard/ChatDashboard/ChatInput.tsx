@@ -68,7 +68,13 @@ const ChatInput = ({ channelId }: IChatInputProps): React.ReactElement => {
 					</button>
 				</div>
 
-				<Button type="button" color="primary" isLoading={isLoading} onClick={onSendMessage} className="dark:border-white">
+				<Button
+					type="button"
+					color="primary"
+					isLoading={isLoading}
+					onClick={onSendMessage}
+					className="dark:border-white"
+				>
 					<PaperAirplaneIcon className="h-5 w-5 mr-2" />
 					Send
 				</Button>

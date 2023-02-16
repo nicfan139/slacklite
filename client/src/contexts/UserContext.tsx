@@ -1,6 +1,6 @@
 'use client';
 import { createContext, ReactNode, useState, useEffect, useCallback, useContext } from 'react';
-import { Loading } from '@/components';
+import { LoadingScreen } from '@/components';
 import { PUBLIC_ROUTES } from '@/constants';
 import { USER_ACCESS_TOKEN } from '@/helpers';
 import { useValidateToken } from '@/hooks';
@@ -52,15 +52,8 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	if (validateToken.isLoading) {
-		return (
-			<div className="h-screen w-screen flex flex-col justify-center items-center">
-				<Loading className="h-20 w-20" />
-				<p className="mt-2 text-xl">Validating credentials</p>
-			</div>
-		);
+		return <LoadingScreen message="Validating credentials" />;
 	}
-
-	console.log('currentUser: ', currentUser);
 
 	return (
 		<UserContext.Provider

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Loading, Title, Button } from '@/components';
+import { LoadingScreen, Title, Button } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useUserQuery } from '@/graphql';
 import AddChannel from './AddChannel';
@@ -18,7 +18,8 @@ export default function DashboardPage(): React.ReactElement {
 		}
 	}, [user]);
 
-	if (isLoadingUser || !user || !currentUser?.channels) return <Loading />;
+	if (isLoadingUser || !user || !currentUser?.channels)
+		return <LoadingScreen message="Fetching channels" />;
 
 	return (
 		<div className="p-0">

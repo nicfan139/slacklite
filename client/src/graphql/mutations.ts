@@ -63,6 +63,12 @@ export const ADD_CHANNEL_MUTATION = gql`
 	}
 `;
 
+export const DELETE_CHANNEL_MUTATION = gql`
+	mutation DeleteChannelMutation($channelId: ID!) {
+		deleteChannel(channelId: $channelId)
+	}
+`;
+
 export const ADD_MESSAGE_MUTATION = gql`
 	mutation AddMessageMutation($input: AddMessageInput!) {
 		message: addMessage(input: $input) {
