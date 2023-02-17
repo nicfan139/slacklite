@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import dayjs from 'dayjs';
 import ArrowSmallLeftIcon from '@heroicons/react/24/outline/ArrowSmallLeftIcon';
+import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon';
 import { Loading } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useChannelQuery } from '@/graphql';
@@ -11,11 +12,13 @@ import DeleteChannel from './DeleteChannel';
 interface IChannelMessagesProps {
 	selectedChannelId?: string;
 	setSelectedChannel: (channel?: TUserChannel) => void;
+	channels: Array<TUserChannel>;
 }
 
 const ChannelMessages = ({
 	selectedChannelId,
-	setSelectedChannel
+	setSelectedChannel,
+	channels
 }: IChannelMessagesProps): React.ReactElement => {
 	const { currentUser } = useUserContext();
 	const { isLoading, channel } = useChannelQuery(selectedChannelId);
@@ -65,15 +68,20 @@ const ChannelMessages = ({
 							channel.messages.map((message) => {
 								const MESSAGE_OWNER = message.from;
 								return (
-									<div className="w-full flex justify-between py-2 px-4 hover:bg-slate-100 dark:hover:bg-slate-500">
-										<div>
-											<label className="text-slate-800 dark:text-white font-bold">
-												{CHAT_NAME_PREFERENCE === 'fullName' &&
-													`${MESSAGE_OWNER.firstName} ${MESSAGE_OWNER.lastName}`}
-												{CHAT_NAME_PREFERENCE === 'firstName' && MESSAGE_OWNER.firstName}
-												{CHAT_NAME_PREFERENCE === 'email' && MESSAGE_OWNER.email}:
-											</label>
-											<ReactMarkdown className="max-w-sm" children={message.text} />
+									<div className="w-full flex justify-between p-2 hover:bg-slate-100 dark:hover:bg-slate-500">
+										<div className="flex">
+											<UserCircleIcon className="h-10 w-10 mr-2 text-slate-800 dark:text-white" />
+
+											<div>
+												<label className="text-slate-800 dark:text-white font-bold">
+													{CHAT_NAME_PREFERENCE === 'fullName' &&
+														`${MESSAGE_OWNER.firstName} ${MESSAGE_OWNER.lastName}`}
+													{CHAT_NAME_PREFERENCE === 'firstName' && MESSAGE_OWNER.firstName}
+													{CHAT_NAME_PREFERENCE === 'email' && MESSAGE_OWNER.email}:
+												</label>
+
+												<ReactMarkdown className="max-w-sm" children={message.text} />
+											</div>
 										</div>
 
 										<label>{dayjs(message.createdAt).format('YYYY-MM-DD hh:mm A')}</label>
@@ -95,8 +103,16 @@ const ChannelMessages = ({
 						<Loading className="h-20 w-20" />
 					) : (
 						<div className="h-full flex items-center m-4">
-							<ArrowSmallLeftIcon className="h-6 w-6 dark:text-white" />
-							<label className="ml-2 dark:text-white">Select a channel to get started!</label>
+							{channels.length > 0 ? (
+								<>
+									<ArrowSmallLeftIcon className="h-6 w-6 dark:text-white" />
+									<label className="ml-2 dark:text-white">Select a channel to get started!</label>
+								</>
+							) : (
+								<label className="dark:text-white">
+									You have no active channels. Create one to get started!
+								</label>
+							)}
 						</div>
 					)}
 				</div>

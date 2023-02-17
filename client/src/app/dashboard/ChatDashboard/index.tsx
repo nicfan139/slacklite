@@ -10,12 +10,13 @@ interface IChatDashboardProps {
 const ChatDashboard = ({ channels }: IChatDashboardProps): React.ReactElement => {
 	const [selectedChannel, setSelectedChannel] = useState<TUserChannel>();
 	return (
-		<div className="h-128 flex">
+		<div className="h-144 flex">
 			<ChannelList {...{ channels, selectedChannel, setSelectedChannel }} />
 
 			<ChannelMessages
 				selectedChannelId={selectedChannel?.id}
 				setSelectedChannel={setSelectedChannel}
+				channels={channels}
 			/>
 		</div>
 	);

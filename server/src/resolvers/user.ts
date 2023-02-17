@@ -28,7 +28,7 @@ export const UserResolvers = {
 
 			const users = await UserRepository.find({
 				where: {
-					isAdmin: false,
+					isAdmin: false
 				},
 				order: {
 					createdAt: 'DESC'
@@ -55,7 +55,7 @@ export const UserResolvers = {
 				},
 				relations: {
 					channels: true,
-					channelsOwned: true,
+					channelsOwned: true
 				}
 			});
 

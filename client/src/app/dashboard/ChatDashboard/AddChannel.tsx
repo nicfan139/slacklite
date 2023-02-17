@@ -145,13 +145,16 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 						}}
 					>
 						<div className="relative mt-1">
-							<div className="relative w-full cursor-default overflow-hidden border rounded-lg bg-white text-left outline-none">
+							<div className="relative w-full cursor-default overflow-hidden border dark:border-slate-500 rounded-lg bg-white dark:bg-slate-500 text-left outline-none">
 								<Combobox.Input
-									className="w-full border-none py-2 pl-3 pr-10 text-sm rounded-lg outline-none leading-5 text-gray-900"
+									className="w-full border-none py-2 pl-3 pr-10 text-sm rounded-lg outline-none leading-5 dark:bg-slate-500 text-gray-900 dark:text-white"
 									onChange={(event) => setMemberQuery(event.target.value)}
 								/>
 								<Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-									<ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+									<ChevronUpDownIcon
+										className="h-5 w-5 text-gray-400 dark:text-white"
+										aria-hidden="true"
+									/>
 								</Combobox.Button>
 							</div>
 							<Transition
@@ -161,9 +164,9 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 								leaveTo="opacity-0"
 								afterLeave={() => setMemberQuery('')}
 							>
-								<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+								<Combobox.Options className="absolute mt-1 max-h-52 w-full overflow-auto rounded-md bg-white dark:bg-slate-500 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 									{filteredPeople.length === 0 && memberQuery !== '' ? (
-										<div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+										<div className="relative cursor-default select-none py-2 px-4 text-gray-700 dark:text-white">
 											Nothing found
 										</div>
 									) : (
@@ -172,7 +175,9 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 												key={user.id}
 												className={({ active }) =>
 													`relative cursor-default select-none py-2 pl-10 pr-4 ${
-														active ? 'bg-red-600 dark:bg-slate-800 text-white' : 'text-gray-900'
+														active
+															? 'bg-red-600 dark:bg-slate-800 text-white'
+															: 'text-gray-900 dark:text-white'
 													}`
 												}
 												value={user}
@@ -195,7 +200,10 @@ const AddChannel = ({ isOpen, toggleAddChannel }: IAddChannelProps): React.React
 																		active ? 'text-white' : 'text-red-600 dark:text-slate-800'
 																	}`}
 																>
-																	<CheckIcon className="h-5 w-5" aria-hidden="true" />
+																	<CheckIcon
+																		className="h-5 w-5 dark:text-white"
+																		aria-hidden="true"
+																	/>
 																</span>
 															)}
 														</>
