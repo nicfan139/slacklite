@@ -2,8 +2,9 @@ import ReactMarkdown from 'react-markdown';
 import dayjs from 'dayjs';
 import ArrowSmallLeftIcon from '@heroicons/react/24/outline/ArrowSmallLeftIcon';
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon';
+import XCircleIcon from '@heroicons/react/24/outline/XCircleIcon';
 import { Loading } from '@/components';
-import { useUserContext } from '@/contexts';
+import { useUserContext, useResponsiveDisplay } from '@/contexts';
 import { useChannelQuery } from '@/graphql';
 import { TUserChannel } from '@/types';
 import ChatInput from './ChatInput';
@@ -21,6 +22,7 @@ const ChannelMessages = ({
 	channels
 }: IChannelMessagesProps): React.ReactElement => {
 	const { currentUser } = useUserContext();
+	const { isDesktop, isMobile } = useResponsiveDisplay();
 	const { isLoading, channel } = useChannelQuery(selectedChannelId);
 
 	const CHAT_NAME_PREFERENCE = currentUser?.preferences?.chatNameDisplay ?? 'fullName';
@@ -28,11 +30,11 @@ const ChannelMessages = ({
 	const CURRENT_USER_OWNS_CHANNEL = channel?.owner?.id === currentUser?.id;
 
 	return (
-		<div className="w-full flex flex-col justify-center p-4 rounded-tr-lg rounded-br-lg bg-white dark:bg-slate-900">
+		<div className="w-full flex flex-col justify-center p-0 md:p-4 rounded-tl-lg md:rounded-tl-none rounded-bl-lg md:rounded-bl-none rounded-tr-lg rounded-br-lg bg-white dark:bg-slate-900">
 			{selectedChannelId && channel ? (
 				<>
-					<div className="flex justify-between items-end mb-2">
-						<div>
+					<div className="flex justify-between items-end mb-2 p-2 md:p-0">
+						<div className='ml-4 md:ml-0'>
 							<h3 className="text-2xl text-red-500 dark:text-white font-semibold">
 								{channel.name}
 							</h3>
@@ -41,29 +43,37 @@ const ChannelMessages = ({
 							</p>
 						</div>
 
-						<div className="flex gap-4 items-end">
-							<div className="flex flex-col items-end text-sm dark:text-white">
-								<div className="flex">
-									<label className="mr-1">Owned by</label>
-									<p className="font-semibold">
-										{CURRENT_USER_OWNS_CHANNEL
-											? 'You'
-											: `${channel.owner.firstName} ${channel.owner.lastName}`}
-									</p>
+						<div className="flex gap-6 md:gap-4 items-center md:items-end">
+							{isDesktop && (
+								<div className="flex flex-col items-end text-sm dark:text-white">
+									<div className="flex">
+										<label className="mr-1">Owned by</label>
+										<p className="font-semibold">
+											{CURRENT_USER_OWNS_CHANNEL
+												? 'You'
+												: `${channel.owner.firstName} ${channel.owner.lastName}`}
+										</p>
+									</div>
+									<div className="flex items-center">
+										<label className="mr-1">Created on</label>
+										<p className="font-semibold">{dayjs(channel.createdAt).format('YYYY-MM-DD')}</p>
+									</div>
 								</div>
-								<div className="flex items-center">
-									<label className="mr-1">Created on</label>
-									<p className="font-semibold">{dayjs(channel.createdAt).format('YYYY-MM-DD')}</p>
-								</div>
-							</div>
+							)}
 
-							{CURRENT_USER_OWNS_CHANNEL && (
+							{isDesktop && CURRENT_USER_OWNS_CHANNEL && (
 								<DeleteChannel channel={channel} setSelectedChannel={setSelectedChannel} />
+							)}
+
+							{isMobile && (
+								<button type="button" onClick={() => setSelectedChannel(undefined)}>
+									<XCircleIcon className='h-12 w-12 text-slate-800 dark:text-white font-bold' />
+								</button>
 							)}
 						</div>
 					</div>
 
-					<div className="h-4/6 overflow-x-hidden overflow-y-scroll flex flex-col mb-2 pb-4 border bg-slate-50 dark:bg-slate-600 dark:text-white">
+					<div className="h-[420px] md:h-4/6 overflow-x-hidden overflow-y-scroll flex flex-col mb-2 pb-4 border bg-slate-50 dark:bg-slate-600 dark:text-white">
 						{channel.messages.length > 0 ? (
 							channel.messages.map((message) => {
 								const MESSAGE_OWNER = message.from;
@@ -84,7 +94,9 @@ const ChannelMessages = ({
 											</div>
 										</div>
 
-										<label>{dayjs(message.createdAt).format('YYYY-MM-DD hh:mm A')}</label>
+										{isDesktop && (
+											<label>{dayjs(message.createdAt).format('YYYY-MM-DD hh:mm A')}</label>
+										)}
 									</div>
 								);
 							})

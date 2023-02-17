@@ -18,13 +18,13 @@ const ChannelList = ({
 }: IChannelListProps): React.ReactElement => {
 	const [showAddChannel, toggleAddChannel] = useState<boolean>(false);
 	return (
-		<div className="h-full w-96 rounded-tl-lg rounded-bl-lg bg-red-800 dark:bg-slate-700">
+		<div className="h-full w-96 rounded-tl-lg rounded-bl-lg rounded-br-lg md:rounded-br-none rounded-tr-lg md:rounded-tr-none bg-red-800 dark:bg-slate-700">
 			<AddChannel isOpen={showAddChannel} toggleAddChannel={toggleAddChannel} />
 
 			<button
 				type="button"
 				onClick={() => toggleAddChannel(true)}
-				className="w-full flex items-center px-7 py-2 border-b-2 rounded-tl-lg border-b-white hover:bg-red-500 dark:hover:bg-slate-500 text-white text-lg font-semibold transition-all"
+				className="w-full flex items-center px-7 py-4 md:py-3 border-b-2 rounded-tl-lg rounded-tr-lg md:rounded-tr-none border-b-white hover:bg-red-500 dark:hover:bg-slate-500 text-white text-lg font-semibold transition-all"
 			>
 				<PlusCircleIcon className="h-7 w-7 mr-2" />
 				Add new channel

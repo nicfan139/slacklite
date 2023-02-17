@@ -19,14 +19,8 @@ export default function DashboardPage(): React.ReactElement {
 		return <LoadingScreen message="Fetching channels" />;
 
 	return (
-		<>
-			<section className="hidden md:block">
-				{currentUser.channels && <ChatDashboard channels={currentUser.channels} />}
-			</section>
-
-			<section className="block md:hidden">
-				The chat dashboard has not been optimized for mobile yet :/
-			</section>
-		</>
+		<section>
+			{currentUser.channels && <ChatDashboard channels={currentUser.channels} />}
+		</section>
 	);
 }
