@@ -2,6 +2,14 @@
 
 A chat app built for fun, inspired by Slack. Think of this as a "dumbed-down" small-scale version of the real thing.
 
+## Demo
+
+You can go to the [site](https://slacklite-client.vercel.app) and use the following test credentials:
+```
+  EMAIL=test@test.com
+  PASSWORD=test123
+```
+
 ## Tech stack
 
 Client:
