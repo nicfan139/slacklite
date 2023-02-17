@@ -1,26 +1,27 @@
 'use client';
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Switch } from '@headlessui/react';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import LockClosedIcon from '@heroicons/react/24/outline/LockClosedIcon';
-import { Loading, Title, Heading, Box, Button, Label, Select } from '@/components';
+import { Loading, Title, Heading, Box, Button, Label, Switch, Select } from '@/components';
 import { useNotificationContext, useUserContext } from '@/contexts';
 import { useUserQuery, usePreferenceUpdateMutation } from '@/graphql';
 import { TPreferences, TPreferencesChatNameDisplay } from '@/types';
 import UpdateUserDetails from './UpdateUserDetails';
 import UpdateUserPassword from './UpdateUserPassword';
 
+type TPreferencesState = Omit<TPreferences, 'createdAt' | 'updatedAt'>;
+
 export default function ProfilePage(): React.ReactElement {
 	const { currentUser, setCurrentUser } = useUserContext();
 	const { showNotification } = useNotificationContext();
 
 	const { isLoading: isLoadingUser, user } = useUserQuery(currentUser?.id);
-	const { isLoading: isLoadingUpdatePreference, updatePreference } = usePreferenceUpdateMutation();
+	const { updatePreference } = usePreferenceUpdateMutation();
 
 	const [showUpdateUserDetails, toggleUpdateUserDetails] = useState<boolean>(false);
 	const [showUpdateUserPassword, toggleUpdateUserPassword] = useState<boolean>(false);
-	const [preferences, setPreferences] = useState<Omit<TPreferences, 'createdAt' | 'updatedAt'>>({
+	const [preferences, setPreferences] = useState<TPreferencesState>({
 		id: '',
 		colorScheme: 'red',
 		darkModeEnabled: false,
@@ -34,23 +35,19 @@ export default function ProfilePage(): React.ReactElement {
 		}
 	}, [user]);
 
-	const onUpdatePreferencesSubmit = async () => {
+	const onUpdatePreferencesSubmit = async (newPreferences: TPreferencesState) => {
 		try {
 			const preference = await updatePreference({
 				preferenceId: preferences.id,
 				input: {
-					colorScheme: preferences.colorScheme,
-					darkModeEnabled: preferences.darkModeEnabled,
-					chatNameDisplay: preferences.chatNameDisplay
+					colorScheme: newPreferences.colorScheme,
+					darkModeEnabled: newPreferences.darkModeEnabled,
+					chatNameDisplay: newPreferences.chatNameDisplay
 				},
 				userId: user?.id as string
 			});
 
 			if (preference) {
-				showNotification({
-					type: 'success',
-					title: 'Successfully updated your preferences!'
-				});
 				setPreferences(preference);
 			}
 		} catch (e) {
@@ -155,18 +152,12 @@ export default function ProfilePage(): React.ReactElement {
 							<Switch
 								checked={preferences.darkModeEnabled}
 								onChange={() =>
-									setPreferences({ ...preferences, darkModeEnabled: !preferences.darkModeEnabled })
+									onUpdatePreferencesSubmit({
+										...preferences,
+										darkModeEnabled: !preferences.darkModeEnabled
+									})
 								}
-								className={`${preferences.darkModeEnabled ? 'bg-green-500' : 'bg-gray-700'}
-                  relative inline-flex h-8 w-16 shrink-0 cursor-pointer rounded-full border-2 border-transparent dark:border-white transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-							>
-								<span className="sr-only">{preferences.darkModeEnabled ? 'YES' : 'NO'}</span>
-								<span
-									aria-hidden="true"
-									className={`${preferences.darkModeEnabled ? 'translate-x-8' : 'translate-x-0'}
-                    pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-								/>
-							</Switch>
+							/>
 						</div>
 
 						<div className="flex justify-between items-center mb-4">
@@ -188,7 +179,7 @@ export default function ProfilePage(): React.ReactElement {
 									}
 								]}
 								onChange={(value: string) =>
-									setPreferences({
+									onUpdatePreferencesSubmit({
 										...preferences,
 										chatNameDisplay: value as TPreferencesChatNameDisplay
 									})
@@ -197,16 +188,6 @@ export default function ProfilePage(): React.ReactElement {
 								className="w-36"
 							/>
 						</div>
-
-						<Button
-							color="primary"
-							type="button"
-							onClick={onUpdatePreferencesSubmit}
-							isLoading={isLoadingUpdatePreference}
-							className="w-full mt-8 mb-4"
-						>
-							Update preferences
-						</Button>
 					</div>
 				</div>
 			</Box>

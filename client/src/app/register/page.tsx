@@ -99,7 +99,6 @@ export default function RegisterPage() {
 						type="email"
 						onChange={(email) => setValue('email', email)}
 						value={FORM_STATE.email}
-						autoFocus
 					/>
 
 					<Input

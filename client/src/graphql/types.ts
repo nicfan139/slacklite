@@ -4,6 +4,7 @@ export interface IUpdateUserInput {
 	firstName: string;
 	lastName: string;
 	email: string;
+	isAdmin?: boolean;
 }
 
 export interface IUpdatePreferenceInput {

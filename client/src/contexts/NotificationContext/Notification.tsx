@@ -3,7 +3,7 @@ import { Transition, Dialog } from '@headlessui/react';
 import CheckCircleIcon from '@heroicons/react/24/outline/CheckCircleIcon';
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
 import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
-import Button from './Button';
+import { Button } from '@/components';
 
 interface INotificationProps {
 	type: 'success' | 'warning' | 'error';

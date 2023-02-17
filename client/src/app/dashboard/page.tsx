@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { LoadingScreen, Title, Button } from '@/components';
+import { LoadingScreen, Title, Button, Box } from '@/components';
 import { useUserContext } from '@/contexts';
 import { useUserQuery } from '@/graphql';
 import AddChannel from './AddChannel';
@@ -39,9 +39,10 @@ export default function DashboardPage(): React.ReactElement {
 				{currentUser.channels.length > 0 ? (
 					<ChatDashboard channels={currentUser.channels} />
 				) : (
-					<p className="my-6 text-xl text-slate-800 dark:text-white">
-						Welcome to Slacklite! Add a new channel to get started :)
-					</p>
+					<Box className="my-6 text-xl dark:text-white">
+						<p className="mb-2 font-semibold">Welcome to Slacklite!</p>
+						<p>You currently have no active channels. Add a new channel to get started :)</p>
+					</Box>
 				)}
 			</section>
 

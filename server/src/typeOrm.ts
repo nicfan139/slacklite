@@ -17,11 +17,11 @@ export const AppDataSource = new DataSource({
 	password: process.env.PG_PASSWORD,
 	database: process.env.PG_DATABASE,
 	ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false
-    }
-  },
+	extra: {
+		ssl: {
+			rejectUnauthorized: false
+		}
+	},
 	synchronize: false,
 	migrationsRun: true,
 	logging: false,

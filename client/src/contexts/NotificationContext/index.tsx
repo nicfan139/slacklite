@@ -1,5 +1,5 @@
 import { createContext, ReactNode, ReactElement, useState, useContext } from 'react';
-import { Notification } from '@/components';
+import Notification from './Notification';
 
 interface INotificationContext {
 	showNotification: (options: IShowNotificationOptions) => void;
