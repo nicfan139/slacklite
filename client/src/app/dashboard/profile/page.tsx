@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import LockClosedIcon from '@heroicons/react/24/outline/LockClosedIcon';
-import { Loading, Title, Heading, Box, Button, Label, Switch, Select } from '@/components';
+import { LoadingScreen, Title, Heading, Box, Button, Label, Switch, Select } from '@/components';
 import { useNotificationContext, useUserContext } from '@/contexts';
 import { useUserQuery, usePreferenceUpdateMutation } from '@/graphql';
 import { TPreferences, TPreferencesChatNameDisplay } from '@/types';
@@ -60,7 +60,7 @@ export default function ProfilePage(): React.ReactElement {
 		}
 	};
 
-	if (!currentUser || isLoadingUser || !user) return <Loading />;
+	if (!currentUser || isLoadingUser || !user) return <LoadingScreen />;
 
 	return (
 		<div className="mx-4">

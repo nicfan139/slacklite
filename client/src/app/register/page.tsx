@@ -49,7 +49,7 @@ export default function RegisterPage() {
 	);
 
 	return (
-		<main className="h-screen w-screen flex flex-col justify-start items-center pt-20 bg-red-400">
+		<main className="h-screen w-screen flex flex-col justify-start items-center pt-20 animated-bg">
 			<Tabs
 				tabList={[
 					{

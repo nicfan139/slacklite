@@ -45,7 +45,7 @@ export default function LoginPage(): React.ReactElement {
 	const IS_FORM_VALID = Boolean(FORM_STATE.email && FORM_STATE.password);
 
 	return (
-		<main className="h-screen w-screen flex flex-col justify-start items-center pt-20 bg-red-400">
+		<main className="h-screen w-screen flex flex-col justify-start items-center pt-20 animated-bg">
 			<Tabs
 				tabList={[
 					{

@@ -21,7 +21,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	return (
 		<DashboardProviders>
 			<div className="h-screen w-screen relative flex flex-col justify-start items-center bg-red-400 dark:bg-slate-600">
-				<Navbar />
+				{currentUser?.email && (
+					<Navbar />
+				)}
 
 				<main className="w-full max-w-4xl overflow-y-scroll md:overflow-y-hidden pt-24 pb-16 mb:pb-0 mx-auto">
 					{children}
