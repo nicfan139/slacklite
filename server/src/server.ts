@@ -63,6 +63,7 @@ const server = async () => {
 	const httpServer = createHttpServer(app);
 
 	httpServer.listen({ port: PORT }, () => {
+		console.log(`Server running on port ${PORT}`);
 		if (process.env.PG_HOST === 'localhost') {
 			console.log(`GraphQL endpoint: http://localhost:${PORT}/api/graphql`);
 		}
