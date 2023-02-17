@@ -1,5 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { NotificationContextProvider, ResponsiveDisplayContextProvider, UserContextProvider } from '@/contexts';
+import {
+	NotificationContextProvider,
+	ResponsiveDisplayContextProvider,
+	UserContextProvider
+} from '@/contexts';
 
 const queryClient = new QueryClient();
 

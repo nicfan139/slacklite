@@ -1,41 +1,54 @@
+'use client';
 import { createContext, ReactNode, ReactElement, useState, useEffect, useContext } from 'react';
 
 interface IResponsiveDisplayContext {
-  isMobile: boolean;
-  isDesktop: boolean;
+	isMobile: boolean;
+	isDesktop: boolean;
 }
 
 const ResponsiveDisplayContext = createContext<IResponsiveDisplayContext>({
-  isMobile: false,
-  isDesktop: false,
+	isMobile: false,
+	isDesktop: false
 });
 
-export const ResponsiveDisplayContextProvider = ({ children }: { children: ReactNode }): ReactElement => {
-	const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
+export const ResponsiveDisplayContextProvider = ({
+	children
+}: {
+	children: ReactNode;
+}): ReactElement => {
+	const [isMobile, setIsMobile] = useState<boolean>(
+		typeof window !== 'undefined' ? window.innerWidth < 768 : false
+	);
 
 	useEffect(() => {
 		const getScreenSize = () => {
-			const screenWidth = window.innerWidth;
-			setIsMobile(screenWidth < 768)
-		}
+			if (typeof window !== 'undefined') {
+				const screenWidth = window.innerWidth;
+				setIsMobile(screenWidth < 768);
+			}
+		};
 
-		window.addEventListener("resize", getScreenSize)
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', getScreenSize);
+		}
 
 		return () => {
-			window.removeEventListener("resize", getScreenSize)
-		}
-	}, [])
-  
-  return (
-    <ResponsiveDisplayContext.Provider
-      value={{
-        isMobile,
-        isDesktop: !isMobile
-      }}
-    >
-      {children}
-    </ResponsiveDisplayContext.Provider>
-  )
-}
+			if (typeof window !== 'undefined') {
+				window.removeEventListener('resize', getScreenSize);
+			}
+		};
+	}, []);
 
-export const useResponsiveDisplay = () => useContext(ResponsiveDisplayContext)
+	return (
+		<ResponsiveDisplayContext.Provider
+			value={{
+				isMobile,
+				isDesktop: !isMobile
+			}}
+		>
+			{children}
+		</ResponsiveDisplayContext.Provider>
+	);
+};
+
+export const useResponsiveDisplay = () => useContext(ResponsiveDisplayContext);

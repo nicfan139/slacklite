@@ -19,8 +19,6 @@ export default function DashboardPage(): React.ReactElement {
 		return <LoadingScreen message="Fetching channels" />;
 
 	return (
-		<section>
-			{currentUser.channels && <ChatDashboard channels={currentUser.channels} />}
-		</section>
+		<section>{currentUser.channels && <ChatDashboard channels={currentUser.channels} />}</section>
 	);
 }

@@ -18,10 +18,7 @@ const ChatDashboard = ({ channels }: IChatDashboardProps): React.ReactElement =>
 			<ChannelList {...{ channels, selectedChannel, setSelectedChannel }} />
 
 			{isMobile ? (
-				<Modal
-					isOpen={Boolean(selectedChannel)}
-					className="w-full max-w-screen-sm p-0"
-				>
+				<Modal isOpen={Boolean(selectedChannel)} className="w-full max-w-screen-sm p-0">
 					<ChannelMessages
 						selectedChannelId={selectedChannel?.id}
 						setSelectedChannel={setSelectedChannel}

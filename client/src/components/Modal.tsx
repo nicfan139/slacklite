@@ -36,14 +36,19 @@ const Modal = ({ isOpen, title, children, className }: IModalProps): ReactElemen
 						leaveFrom="opacity-100 scale-100"
 						leaveTo="opacity-0 scale-95"
 					>
-						<Dialog.Panel className={twMerge("w-full max-w-md transform flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all", className)}>
+						<Dialog.Panel
+							className={twMerge(
+								'w-full max-w-md transform flex flex-col items-center rounded-2xl bg-white dark:bg-slate-700 p-6 text-left align-middle shadow-xl transition-all',
+								className
+							)}
+						>
 							{title && (
 								<Heading className="text-2xl text-center font-semibold leading-6 dark:text-white dark:bg-slate-700">
 									<h3>{title}</h3>
 								</Heading>
 							)}
 
-							<div className={twMerge("w-full", title && 'mt-4')}>{children}</div>
+							<div className={twMerge('w-full', title && 'mt-4')}>{children}</div>
 						</Dialog.Panel>
 					</Transition.Child>
 				</div>

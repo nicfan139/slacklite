@@ -34,7 +34,7 @@ const ChannelMessages = ({
 			{selectedChannelId && channel ? (
 				<>
 					<div className="flex justify-between items-end mb-2 p-2 md:p-0">
-						<div className='ml-4 md:ml-0'>
+						<div className="ml-4 md:ml-0">
 							<h3 className="text-2xl text-red-500 dark:text-white font-semibold">
 								{channel.name}
 							</h3>
@@ -67,7 +67,7 @@ const ChannelMessages = ({
 
 							{isMobile && (
 								<button type="button" onClick={() => setSelectedChannel(undefined)}>
-									<XCircleIcon className='h-12 w-12 text-slate-800 dark:text-white font-bold' />
+									<XCircleIcon className="h-12 w-12 text-slate-800 dark:text-white font-bold" />
 								</button>
 							)}
 						</div>
