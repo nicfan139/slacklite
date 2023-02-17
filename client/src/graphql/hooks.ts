@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { getAuthContext } from '@/helpers';
 import { TChannel, TMessage, TPreferences, TUser } from '@/types';
-import { USERS_QUERY, USER_QUERY, CHANNEL_QUERY } from './queries';
+import { USERS_QUERY, USERS_ADMIN_QUERY, USER_QUERY, CHANNEL_QUERY } from './queries';
 import {
 	UPDATE_USER_MUTATION,
 	UPDATE_USER_PASSWORD_MUTATION,
@@ -20,6 +20,17 @@ import {
 
 export const useUsersQuery = () => {
 	const { data, loading } = useQuery<{ users: Array<TUser> }>(USERS_QUERY, {
+		context: getAuthContext()
+	});
+
+	return {
+		isLoading: loading,
+		users: data?.users
+	};
+};
+
+export const useUsersAdminQuery = () => {
+	const { data, loading } = useQuery<{ users: Array<TUser> }>(USERS_ADMIN_QUERY, {
 		context: getAuthContext()
 	});
 

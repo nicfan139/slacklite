@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LoadingScreen, Loading, Title, Box, Switch } from '@/components';
 import { useUserContext, useNotificationContext } from '@/contexts';
-import { useUserQuery, useUsersQuery, useUserUpdateMutation } from '@/graphql';
+import { useUserQuery, useUsersAdminQuery, useUserUpdateMutation } from '@/graphql';
 import { TUser } from '@/types';
 
 export default function AdminUsersPage(): React.ReactElement {
@@ -11,7 +11,7 @@ export default function AdminUsersPage(): React.ReactElement {
 	const { currentUser, setCurrentUser } = useUserContext();
 	const { showNotification } = useNotificationContext();
 	const { isLoading: isLoadingUser, user } = useUserQuery(currentUser?.id);
-	const { isLoading: isLoadingUsers, users } = useUsersQuery();
+	const { isLoading: isLoadingUsers, users } = useUsersAdminQuery();
 	const { updateUser } = useUserUpdateMutation();
 
 	useEffect(() => {

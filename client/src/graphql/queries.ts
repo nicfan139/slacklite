@@ -7,7 +7,30 @@ export const USERS_QUERY = gql`
 			firstName
 			lastName
 			email
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const USERS_ADMIN_QUERY = gql`
+	query UsersAdminQuery {
+		users: usersAdmin {
+			id
+			firstName
+			lastName
+			email
 			isAdmin
+			channels {
+				id
+				name
+				description
+			}
+			channelsOwned {
+				id
+				name
+				description
+			}
 			createdAt
 			updatedAt
 		}

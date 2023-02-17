@@ -3,6 +3,7 @@ import { gql } from 'graphql-tag';
 export const UserTypeDefs = gql`
 	type Query {
 		users: [User!]
+		usersAdmin: [User!]
 		user(userId: ID!): User!
 	}
 

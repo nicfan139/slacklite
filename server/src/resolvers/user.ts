@@ -27,8 +27,35 @@ export const UserResolvers = {
 			}
 
 			const users = await UserRepository.find({
+				where: {
+					isAdmin: false,
+				},
 				order: {
 					createdAt: 'DESC'
+				}
+			});
+
+			return users;
+		},
+
+		usersAdmin: async (
+			_root: unknown,
+			_args: unknown,
+			context: {
+				id: string;
+			}
+		) => {
+			if (!context.id) {
+				throw new GraphQLError('Unauthorized');
+			}
+
+			const users = await UserRepository.find({
+				order: {
+					createdAt: 'DESC'
+				},
+				relations: {
+					channels: true,
+					channelsOwned: true,
 				}
 			});
 
