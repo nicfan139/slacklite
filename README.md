@@ -35,6 +35,8 @@ Server:
 - Apollo Server
 - TypeORM
 - PostgreSQL
+- Nodemailer
+- Sendinblue
 - Heroku
 - Neon
 
