@@ -39,6 +39,11 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 				localStorage.removeItem('slacklite-userAccessToken');
 			}
 			redirectToLogin();
+		} else {
+			showNotification({
+				type: 'error',
+				title: data.errorMessage
+			});
 		}
 	};
 
@@ -49,8 +54,8 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 		});
 		if (status === 201 && data.isTokenValid && data.user) {
 			showNotification({
-				title: 'Email successfully verified!',
-				type: 'success'
+				type: 'success',
+				title: 'Email successfully verified!'
 			});
 			setCurrentUser(data.user);
 		} else if (!data.isTokenValid) {
@@ -58,6 +63,11 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 				localStorage.removeItem('slacklite-userAccessToken');
 			}
 			redirectToLogin();
+		} else {
+			showNotification({
+				type: 'error',
+				title: data.errorMessage
+			});
 		}
 	};
 

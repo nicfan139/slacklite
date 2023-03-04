@@ -177,7 +177,12 @@ router.post('/verify_email', async (req: Request, res: Response) => {
 		const user = await UserRepository.findOneBy({ id: jwtPayload.id });
 
 		if (user) {
-			if (verifyToken === user.verifyToken) {
+			if (user.verified) {
+				res.status(400).json({
+					isTokenValid: true,
+					errorMessage: 'User has already been verified'
+				});
+			} else if (verifyToken === user.verifyToken) {
 				UserRepository.merge(user, { verified: true, verifyToken: '' });
 				const updatedUser = await UserRepository.save(user);
 
