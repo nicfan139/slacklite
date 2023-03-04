@@ -30,7 +30,9 @@ const server = async () => {
 
 	app.use(
 		morgan('dev'),
-		cors(),
+		cors({
+			origin: process.env.SLACKLITE_CLIENT_URL as string
+		}),
 		express.json(),
 		expressjwt({
 			algorithms: ['HS256'],
