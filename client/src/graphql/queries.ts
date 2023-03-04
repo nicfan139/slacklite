@@ -21,6 +21,7 @@ export const USERS_ADMIN_QUERY = gql`
 			lastName
 			email
 			isAdmin
+			verified
 			channels {
 				id
 				name
@@ -45,6 +46,7 @@ export const USER_QUERY = gql`
 			lastName
 			email
 			isAdmin
+			verified
 			channels {
 				id
 				name

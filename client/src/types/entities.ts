@@ -9,6 +9,7 @@ export type TUser = TEntity & {
 	firstName: string;
 	lastName: string;
 	isAdmin: boolean;
+	verified: boolean;
 	channels: Array<TUserChannel>;
 	channelsOwned: Array<TUserChannel>;
 	preferences: TPreferences;

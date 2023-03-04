@@ -5,6 +5,7 @@ export interface IUpdateUserInput {
 	lastName: string;
 	email: string;
 	isAdmin?: boolean;
+	verified?: boolean;
 }
 
 export interface IUpdatePreferenceInput {

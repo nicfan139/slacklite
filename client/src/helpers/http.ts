@@ -1,6 +1,8 @@
 export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 export const USER_ACCESS_TOKEN =
 	typeof window !== 'undefined' ? localStorage.getItem('slacklite-userAccessToken') : null;
+export const EMAIL_VERIFY_TOKEN =
+	typeof window !== 'undefined' ? window.location.search.replace('?verifyToken=', '') : null;
 
 export const getAuthContext = () => ({
 	headers: {

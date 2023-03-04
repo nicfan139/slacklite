@@ -32,6 +32,12 @@ export class User {
 	@Column()
 	isAdmin!: boolean;
 
+	@Column()
+	verified!: boolean;
+
+	@Column()
+	verifyToken!: string;
+
 	@CreateDateColumn({
 		type: 'timestamptz',
 		default: () => 'now()'

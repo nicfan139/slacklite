@@ -2,8 +2,9 @@
 import { createContext, ReactNode, useState, useEffect, useCallback, useContext } from 'react';
 import { LoadingScreen } from '@/components';
 import { PUBLIC_ROUTES } from '@/constants';
-import { USER_ACCESS_TOKEN } from '@/helpers';
-import { useValidateToken } from '@/hooks';
+import { useNotificationContext } from './NotificationContext';
+import { USER_ACCESS_TOKEN, EMAIL_VERIFY_TOKEN } from '@/helpers';
+import { useValidateToken, useVerifyEmail } from '@/hooks';
 import { TUser } from '@/types';
 
 interface IUserContext {
@@ -17,7 +18,9 @@ const UserContext = createContext<IUserContext>({
 });
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+	const { showNotification } = useNotificationContext();
 	const validateToken = useValidateToken();
+	const verifyEmail = useVerifyEmail();
 
 	const [currentUser, setCurrentUser] = useState<TUser | null>(null);
 
@@ -39,6 +42,25 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	const validateUserEmail = async (accessToken: string, verifyToken: string) => {
+		const { status, data } = await verifyEmail.mutateAsync({
+			accessToken,
+			verifyToken
+		});
+		if (status === 201 && data.isTokenValid && data.user) {
+			showNotification({
+				title: 'Email successfully verified!',
+				type: 'success'
+			});
+			setCurrentUser(data.user);
+		} else if (!data.isTokenValid) {
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem('slacklite-userAccessToken');
+			}
+			redirectToLogin();
+		}
+	};
+
 	useEffect(() => {
 		const existingToken = USER_ACCESS_TOKEN;
 
@@ -47,11 +69,15 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
 				redirectToLogin();
 			}
 		} else {
-			validateUserToken(existingToken as string);
+			if (EMAIL_VERIFY_TOKEN) {
+				validateUserEmail(existingToken, EMAIL_VERIFY_TOKEN);
+			} else {
+				validateUserToken(existingToken);
+			}
 		}
 	}, []);
 
-	if (validateToken.isLoading) {
+	if (validateToken.isLoading || verifyEmail.isLoading) {
 		return <LoadingScreen message="Validating credentials" />;
 	}
 

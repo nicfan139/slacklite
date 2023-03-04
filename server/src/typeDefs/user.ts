@@ -20,6 +20,7 @@ export const UserTypeDefs = gql`
 		lastName: String!
 		email: String!
 		password: String!
+		verified: Boolean!
 		isAdmin: Boolean!
 		channels: [Channel]
 		channelsOwned: [Channel]
@@ -41,6 +42,7 @@ export const UserTypeDefs = gql`
 		lastName: String!
 		email: String!
 		isAdmin: Boolean
+		verified: Boolean
 	}
 
 	input UpdatePasswordInput {

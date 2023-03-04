@@ -28,13 +28,18 @@ export default function AdminUsersPage(): React.ReactElement {
 		return <LoadingScreen />;
 	}
 
-	const onUserUpdate = async (user: TUser) => {
+	const onUserUpdate = async (field: 'isAdmin' | 'verified', user: TUser) => {
 		try {
 			await updateUser(user.id, {
 				firstName: user.firstName,
 				lastName: user.lastName,
 				email: user.email,
-				isAdmin: !user.isAdmin
+				...(field === 'isAdmin' && {
+					isAdmin: !user.isAdmin
+				}),
+				...(field === 'verified' && {
+					verified: !user.verified
+				})
 			});
 		} catch (e) {
 			const error = e as Error;
@@ -57,23 +62,30 @@ export default function AdminUsersPage(): React.ReactElement {
 					<Loading />
 				) : (
 					<div className="w-full text-left text-slate-800 dark:text-white">
-						<div className="grid grid-cols-5 border-b border-b-gray-500 dark:border-b-white text-lg">
+						<div className="grid grid-cols-6 border-b border-b-gray-500 dark:border-b-white text-lg">
 							<div className="pb-2">ID</div>
 							<div className="pb-2">First name</div>
 							<div className="pb-2">Last name</div>
 							<div className="pb-2">Email</div>
 							<div className="pb-2 text-center">Is Admin</div>
+							<div className="pb-2 text-center">Verified</div>
 						</div>
 
 						<div className="max-h-96 overflow-y-auto pt-2">
 							{users.map((user) => (
-								<div key={`user-${user.id}`} className="grid grid-cols-5 py-2">
+								<div key={`user-${user.id}`} className="grid grid-cols-6 py-2">
 									<div>{user.id}</div>
 									<div className="ml-1">{user.firstName}</div>
 									<div className="ml-1">{user.lastName}</div>
 									<div className="ml-1">{user.email}</div>
 									<div className="flex justify-center ml-4">
-										<Switch checked={user.isAdmin} onChange={() => onUserUpdate(user)} />
+										<Switch checked={user.isAdmin} onChange={() => onUserUpdate('isAdmin', user)} />
+									</div>
+									<div className="flex justify-center ml-4">
+										<Switch
+											checked={user.verified}
+											onChange={() => onUserUpdate('verified', user)}
+										/>
 									</div>
 								</div>
 							))}

@@ -38,6 +38,40 @@ export const useValidateToken = () =>
 		} as IFetchResponse<TUseValidateTokenData>;
 	});
 
+export const useSendVerificationEmail = () =>
+	useMutation(async (accessToken: string) => {
+		const response = await normalFetch({
+			route: '/auth/send_verification_email',
+			method: 'POST',
+			payload: {
+				accessToken
+			}
+		});
+
+		return {
+			status: response.status
+		} as IFetchResponse<TUseValidateTokenData>;
+	});
+
+interface IVerifyEmailPayload {
+	accessToken: string;
+	verifyToken: string;
+}
+
+export const useVerifyEmail = () =>
+	useMutation(async (payload: IVerifyEmailPayload) => {
+		const response = await normalFetch({
+			route: '/auth/verify_email',
+			method: 'POST',
+			payload
+		});
+
+		return {
+			status: response.status,
+			data: await response.json()
+		} as IFetchResponse<TUseValidateTokenData>;
+	});
+
 interface IUserCreatePayload {
 	firstName: string;
 	lastName: string;

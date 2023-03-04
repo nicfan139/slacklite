@@ -1,31 +1,22 @@
 import { gql } from 'graphql-tag';
+import { USER_DETAIL_FRAGMENT } from './fragments';
 
 export const UPDATE_USER_MUTATION = gql`
 	mutation UpdateUserMutation($userId: ID!, $input: UpdateUserInput!) {
 		user: updateUser(userId: $userId, input: $input) {
-			id
-			firstName
-			lastName
-			email
-			isAdmin
-			createdAt
-			updatedAt
+			...UserDetail
 		}
 	}
+	${USER_DETAIL_FRAGMENT}
 `;
 
 export const UPDATE_USER_PASSWORD_MUTATION = gql`
 	mutation UpdateUserPasswordMutation($input: UpdatePasswordInput!) {
 		user: updateUserPassword(input: $input) {
-			id
-			firstName
-			lastName
-			email
-			isAdmin
-			createdAt
-			updatedAt
+			...UserDetail
 		}
 	}
+	${USER_DETAIL_FRAGMENT}
 `;
 
 export const UPDATE_PREFERENCE_MUTATION = gql`
