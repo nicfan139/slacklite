@@ -4,7 +4,7 @@ A chat app built for fun, inspired by Slack. Think of this as a "dumbed-down" sm
 
 ## Demo
 
-You can go to the [site](https://slacklite-client.vercel.app) and use the following test credentials:
+You can go to the [site](https://slacklite-client.vercel.app/login) and use the following test credentials:
 ```
   EMAIL=test@test.com
   PASSWORD=test123
