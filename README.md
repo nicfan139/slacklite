@@ -5,6 +5,7 @@ A chat app built for fun, inspired by Slack. Think of this as a "dumbed-down" sm
 ## Demo
 
 You can go to the [site](https://slacklite-client.vercel.app/login) and use the following test credentials:
+
 ```
   EMAIL=test@test.com
   PASSWORD=test123
@@ -13,6 +14,7 @@ You can go to the [site](https://slacklite-client.vercel.app/login) and use the 
 ## Tech stack
 
 Client:
+
 - Next.js 13
 - React
 - TypeScript
@@ -37,7 +39,7 @@ Server:
 - PostgreSQL
 - Nodemailer
 - Sendinblue
-- Heroku
+- Fly.io
 - Neon
 
 ## Authors
